@@ -14,7 +14,6 @@
 #include "GUI/qtUtils.h"
 #include "common/importFiles.h"
 #include "common/exportFiles.h"
-#include "cinolib/linear_solvers.h"
 
 CagePanel::CagePanel(QWidget *parent) :
    QDockWidget(parent),

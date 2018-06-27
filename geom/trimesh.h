@@ -131,6 +131,31 @@ public:
       vertices[vIdPtr + 2] = newPosition.z();
    }
 
+   inline cg3::Vec3d getTriangleBarycenter(int tId)
+   {
+      int tid_ptr = tId * 3;
+      //CHECK_BOUNDS(t_norm, tid_ptr+2);
+      //Retrieve the pointer to the coordinates of the vertices of the face (tid)
+      int v1_id = tris[tid_ptr+0];
+      int v2_id = tris[tid_ptr+1];
+      int v3_id = tris[tid_ptr+2];
+
+      //Retrieve coordinates for v1,v2,v3
+      double x1 = vertices[3*v1_id];
+      double x2 = vertices[3*v2_id];
+      double x3 = vertices[3*v3_id];
+
+      double y1 = vertices[3*v1_id+1];
+      double y2 = vertices[3*v2_id+1];
+      double y3 = vertices[3*v3_id+1];
+
+      double z1 = vertices[3*v1_id+2];
+      double z2 = vertices[3*v2_id+2];
+      double z3 = vertices[3*v3_id+2];
+
+      return cg3::Vec3d( ((x1+x2+x3)/3), ((y1+y2+y3)/3), ((z1+z2+z3)/3) );
+   }
+
    void updateNormals();
    void updateBoundingBox();
    void exportVerticesToEigen(Eigen::VectorXd & vx, Eigen::VectorXd & vy, Eigen::VectorXd & vz);

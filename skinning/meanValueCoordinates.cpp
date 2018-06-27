@@ -8,7 +8,7 @@ MeanValueCoordinates::MeanValueCoordinates()
 
 }
 
-MeanValueCoordinates::MeanValueCoordinates(Weights           * _w,
+MeanValueCoordinates::MeanValueCoordinates(Weights   * _w,
                                            Character * _character,
                                            Cage      * _cage)
    :CageSkinning(_w, _character, _cage)

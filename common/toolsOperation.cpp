@@ -5,8 +5,6 @@
 #include "GUI/glCanvas.h"
 #include "drawables/drawableCharacter.h"
 
-#include "math/meshReconstructor.h"
-
 //TEST
 #include "common/exportFiles.h"
 #include "GUI/qtUtils.h"

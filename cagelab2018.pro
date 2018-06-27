@@ -45,7 +45,7 @@ HEADERS = \
     math/leastSquareSolver.h \
     math/quaternion.h \
     geom/ray.h \
-    math/meshReconstructor.h
+    skinning/greenCoordinates.h
 
 SOURCES = \
     main.cpp \
@@ -80,7 +80,8 @@ SOURCES = \
     GUI/characterPanel.cpp \
     common/toolsOperation.cpp \
     GUI/toolsPanel.cpp \
-    common/characterOperations.cpp
+    common/characterOperations.cpp \
+    skinning/greenCoordinates.cpp
 
 FORMS *= \
     GUI/mainWindow.ui \

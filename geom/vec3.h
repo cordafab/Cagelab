@@ -7,8 +7,6 @@
 #include <iostream>
 #include <common/types.h>
 
-//for cinolib conversion
-#include <cinolib/geometry/vec3.h>
 
 namespace cg3 {
 
@@ -237,11 +235,6 @@ public:
                std::max(this->_y, other._y),
                std::max(this->_z, other._z)
              );
-   }
-
-   inline operator cinolib::vec3<T>() const
-   {
-      return cinolib::vec3<T>(_x, _y, _z);
    }
 
 };

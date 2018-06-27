@@ -11,7 +11,8 @@ Cage::Cage()
 
 Cage::Cage( const std::vector<double>   & vertices ,
             const std::vector<int>      & tris     )
-   : Trimesh(vertices, tris)
+   : Trimesh(vertices, tris),
+   restPoseVertices(vertices)
 {
    init();
 }
