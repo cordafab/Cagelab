@@ -265,7 +265,7 @@ void GlCanvas::mouseMoveEvent(QMouseEvent* e)
          controller->cage->refreshCharacterPose())
       {
          controller->cageSkinning->deform();
-         controller->character->updateNormals();
+         controller->cage->updateNormals();
          //controller->cage->characterPoseRefreshed();
       }
       updateGL();

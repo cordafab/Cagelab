@@ -10,6 +10,7 @@
 #include "drawables/drawableCharacter.h"
 #include "GUI/glCanvas.h"
 #include "skinning/meanValueCoordinates.h"
+#include "skinning/greenCoordinates.h"
 #include "skinning/cageSkinning.h"
 
 void loadCageFromFile()
@@ -40,9 +41,9 @@ void loadCageFromFile()
    if(c->isCharacterLoaded && c->isCageLoaded)
    {
       //Compute Cage Weights
-      Weights * cageWeights = nullptr;
+      /*Weights * cageWeights = nullptr;
 
-      /*if(MeanValueCoordinates::generateCoords(cageWeights,
+      if(MeanValueCoordinates::generateCoords(cageWeights,
                                               (Character*) c->character,
                                               (Cage *) c->cage))
       {
@@ -54,6 +55,27 @@ void loadCageFromFile()
          c->isCageSkinningInitialized = true;
          c->isCageDeformerActive = true;
       }*/
+
+      Weights * cageWeights = nullptr;
+      GreenCoordinates * gc = new GreenCoordinates(cageWeights,
+                                                   c->character,
+                                                   c->cage);
+
+      if(gc->generateCoords())
+      {
+         c->cageWeights = gc->getW();
+         c->cageSkinning = gc;
+
+         c->areCageWeightsLoaded = true;
+         c->isCageSkinningInitialized = true;
+         c->isCageDeformerActive = true;
+      }
+      else
+      {
+         delete gc;
+      }
+
+
    }
 
    updateGUI();

@@ -8,7 +8,7 @@
 
 GreenCoordinates::GreenCoordinates()
 {
-
+   weightsF = nullptr;
 }
 
 GreenCoordinates::GreenCoordinates(Weights   * _w,
@@ -16,17 +16,93 @@ GreenCoordinates::GreenCoordinates(Weights   * _w,
                                    Cage      * _cage)
    :CageSkinning(_w, _character, _cage)
 {
+   weightsF = nullptr;
+}
 
+GreenCoordinates::~GreenCoordinates()
+{
+   if(weightsF) delete weightsF;
 }
 
 void GreenCoordinates::deform()
 {
+   //Calculation of scaling factors between cage and deformed cage
+   calcScalingFactors();
+   std::vector<double> cageCoords = cage->getVerticesVector();
+   for(unsigned int l=0; l<cageCoords.size(); l++)
+      cageCoords[l]*=SCALE;
 
+   /*//Deformed mesh deformed
+   vector<double> newCoords;
+   newCoords.resize(3*mesh->num_vertices());
+   newCoords = mesh->vector_coords();*/
+
+   cg3::Vec3d vi, normalFj;
+   int x,y,z, idV, idC=0;
+
+   //For each η, vertex of the mesh to deform
+   for(unsigned int k=0; k<weightsV->getNumberOfVertices(); k++)
+   {
+      //Init vectors for compute sum
+      cg3::Vec3d sumV, sumF, eta;
+
+      double translInvariance = 0.0;
+
+      //For each cage vertex
+      for(unsigned int i=0; i<weightsV->getNumberOfHandles(); i++)
+      {
+         //Index for the current vi, is at i*3
+         idV = i*3;
+
+         //Retrieve coordinates for vi
+         x = cageCoords[idV+0];
+         y = cageCoords[idV+1];
+         z = cageCoords[idV+2];
+         vi.set(x,y,z);
+
+         //Sum φi(η)*vi
+         sumV = sumV + (weightsV->getWeight(k,i)*vi);
+
+         translInvariance += weightsV->getWeight(k,i);
+      }
+
+      //For each face of the deformed cage
+      for(unsigned int j=0; j<weightsF->getNumberOfHandles(); j++)
+      {
+         //Retrieve normal to the face tj
+         normalFj =  cage->getTriangleNormal(j);
+         assert(fabs(1.0-normalFj.length())<1e-4); //Error in normal value
+
+         //Sum ψj(η)*sj*n(t'j)
+         sumF = sumF + (weightsF->getWeight(j,j)*gcS[j]*normalFj);
+      }
+
+      //New coordinates for each point of the object
+      eta = sumV + sumF;
+
+      //Pointer to the current vertex
+      idC = k*3;
+
+      //Save coordinates for the current vertex
+      cage->setVertex(idC,eta/=SCALE);
+   }
 }
 
-bool GreenCoordinates::generateCoords(Weights   * & weights,
-                                      Character *   character,
-                                      Cage      *   cage)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bool GreenCoordinates::generateCoords(/*Weights * & w*/)
 {
    //Resize and init gcV, gcF vectors
    gcV.resize(character->getNumVertices());
@@ -516,21 +592,21 @@ bool GreenCoordinates::generateCoords(Weights   * & weights,
    //Update Coordinates for points outside cage
    for(unsigned int j=0; j<outerPoints.size(); j++)
    {
-     int vid = 3*outerPoints[j];
-     int i = outerPoints[j];
-     cg3::Vec3d eta = cg3::Vec3d();
+      int vid = 3*outerPoints[j];
+      int i = outerPoints[j];
+      cg3::Vec3d eta = cg3::Vec3d();
 
-     x = objCoords[vid+0];
-     y = objCoords[vid+1];
-     z = objCoords[vid+2];
+      x = objCoords[vid+0];
+      y = objCoords[vid+1];
+      z = objCoords[vid+2];
 
-     eta.set(x,y,z);
+      eta.set(x,y,z);
 
 
-     int closestF = -1;
-     //Determine the correct exit face
-     for(unsigned int h=0; h<exitFaces.size(); h++)
-     {
+      int closestF = -1;
+      //Determine the correct exit face
+      for(unsigned int h=0; h<exitFaces.size(); h++)
+      {
          int v0_id = cageFaces[3*exitFaces[h]];
          cg3::Vec3d v0 = cg3::Vec3d();
          int x0,y0,z0;
@@ -548,98 +624,125 @@ bool GreenCoordinates::generateCoords(Weights   * & weights,
          //If side > 0, then the point is on the side of the plane the normal is pointing towards
          if(side>=0)
          {
-             closestF = exitFaces[h];
+            closestF = exitFaces[h];
          }
-     }
-     if(closestF==-1) //No Face founded, Bind point with closest face
-     {
+      }
+      if(closestF==-1) //No Face founded, Bind point with closest face
+      {
          //If there is only one exit face, unclassified points are mapped to this face
          if(exitFaces.size()==1)
          {
-             closestF = exitFaces[0];
+            closestF = exitFaces[0];
          }
          else
          {
-             //Search the closest exit face for unclassified points
-             double minDist = DBL_MAX;
+            //Search the closest exit face for unclassified points
+            double minDist = DBL_MAX;
 
-             //Looking for face nearest to the point eta (exit face)
-             for(unsigned int j=0; j<exitFaces.size(); j++)
-             {
-                 cg3::Vec3d centerF = cage->getTriangleBarycenter(exitFaces[j]);
-                 double dist = (eta-centerF).length();
-                 if(dist<minDist)
-                 {
-                     minDist = dist;
-                     //Id of the closest face
-                     closestF = exitFaces[j];
-                 }
-             }
+            //Looking for face nearest to the point eta (exit face)
+            for(unsigned int j=0; j<exitFaces.size(); j++)
+            {
+               cg3::Vec3d centerF = cage->getTriangleBarycenter(exitFaces[j]);
+               double dist = (eta-centerF).length();
+               if(dist<minDist)
+               {
+                  minDist = dist;
+                  //Id of the closest face
+                  closestF = exitFaces[j];
+               }
+            }
          }
-     }
+      }
 
-     if(closestF==-1)
+      if(closestF==-1)
          std::cout<<"ALERT";
 
-     //Get the ids of the vertices that lie on the face
-     double  x,y,z;
-     std::vector<cg3::Vec3d> vFace(3);
-     int j1,j2,j3;
+      //Get the ids of the vertices that lie on the face
+      double  x,y,z;
+      std::vector<cg3::Vec3d> vFace(3);
+      int j1,j2,j3;
 
-     j1 = cageFaces[3*closestF+0];
-     j2 = cageFaces[3*closestF+1];
-     j3 = cageFaces[3*closestF+2];
+      j1 = cageFaces[3*closestF+0];
+      j2 = cageFaces[3*closestF+1];
+      j3 = cageFaces[3*closestF+2];
 
-     //Get id for vertices v1,v2,v3
-     v1_id = 3*j1;
-     v2_id = 3*j2;
-     v3_id = 3*j3;
+      //Get id for vertices v1,v2,v3
+      v1_id = 3*j1;
+      v2_id = 3*j2;
+      v3_id = 3*j3;
 
-     //Coords of v1
-     x = cageCoords[v1_id];
-     y = cageCoords[v1_id+1];
-     z = cageCoords[v1_id+2];
-     vFace[0].set(x,y,z);
+      //Coords of v1
+      x = cageCoords[v1_id];
+      y = cageCoords[v1_id+1];
+      z = cageCoords[v1_id+2];
+      vFace[0].set(x,y,z);
 
-     //Coords of v2
-     x = cageCoords[v2_id];
-     y = cageCoords[v2_id+1];
-     z = cageCoords[v2_id+2];
-     vFace[1].set(x,y,z);
+      //Coords of v2
+      x = cageCoords[v2_id];
+      y = cageCoords[v2_id+1];
+      z = cageCoords[v2_id+2];
+      vFace[1].set(x,y,z);
 
-     //Coords of v3
-     x = cageCoords[v3_id];
-     y = cageCoords[v3_id+1];
-     z = cageCoords[v3_id+2];
-     vFace[2].set(x,y,z);
+      //Coords of v3
+      x = cageCoords[v3_id];
+      y = cageCoords[v3_id+1];
+      z = cageCoords[v3_id+2];
+      vFace[2].set(x,y,z);
 
-     // compute alpha[3] and beta
-     Eigen::Matrix4d A;
-     for (int l = 0; l < 3; l++)
-     {
+      // compute alpha[3] and beta
+      Eigen::Matrix4d A;
+      for (int l = 0; l < 3; l++)
+      {
          Eigen::Vector4d fp; fp << vFace[l].x(), vFace[l].y(), vFace[l].z(), 1.0;
          A.col(l) = fp;
-     }
+      }
 
-     Eigen::Vector4d fn; fn << cage->getTriangleNormal(closestF).x(),
-                               cage->getTriangleNormal(closestF).y(),
-                               cage->getTriangleNormal(closestF).z(),
-                               0.0;
-     A.col(3) = fn;
+      Eigen::Vector4d fn; fn << cage->getTriangleNormal(closestF).x(),
+            cage->getTriangleNormal(closestF).y(),
+            cage->getTriangleNormal(closestF).z(),
+            0.0;
+      A.col(3) = fn;
 
-     Eigen::Vector4d pnt; pnt << eta.x(), eta.y(), eta.z(), 1.0;
+      Eigen::Vector4d pnt; pnt << eta.x(), eta.y(), eta.z(), 1.0;
 
-     Eigen::Vector4d xsol = A.fullPivLu().solve(pnt);
+      Eigen::Vector4d xsol = A.fullPivLu().solve(pnt);
 
-     //Update φj(η) for point η, that lies outside cage
+      //Update φj(η) for point η, that lies outside cage
 
-     gcV[i][j1] = gcV[i][j1] + xsol[0];
-     gcV[i][j2] = gcV[i][j2] + xsol[1];
-     gcV[i][j3] = gcV[i][j3] + xsol[2];
+      gcV[i][j1] = gcV[i][j1] + xsol[0];
+      gcV[i][j2] = gcV[i][j2] + xsol[1];
+      gcV[i][j3] = gcV[i][j3] + xsol[2];
 
-     //Update ψclosestF(η) for point η for the exit face (closestF)
-     gcF[i][closestF] = gcF[i][closestF] + xsol[3];
+      //Update ψclosestF(η) for point η for the exit face (closestF)
+      gcF[i][closestF] = gcF[i][closestF] + xsol[3];
    }
+
+   //Transfering weights from gcV to WeightsV
+   //if(w) delete w;
+   weightsV = new Weights(character->getNumVertices(),cage->getNumVertices());
+   for(unsigned long i=0; i<gcV.size(); ++i)
+   {
+      for(unsigned long j=0; j<gcV[i].size(); ++j)
+      {
+         weightsV->setWeight(j,i,gcV[i][j]);
+      }
+   }
+
+   //Transfering weights from gcF to WeightsF
+
+   //if(weightsF) delete weightsF;
+   weightsF = new Weights(character->getNumVertices(),cage->getNumTriangles());
+   for(unsigned long i=0; i<gcF.size(); ++i)
+   {
+      for(unsigned long j=0; j<gcF[i].size(); ++j)
+      {
+         weightsF->setWeight(j,i,gcF[i][j]);
+      }
+   }
+
+   //this->w = w; //TODO: THIS IS SO UGLY
+
+   return true;
 }
 
 double GreenCoordinates::gcTriInt(const cg3::Vec3d & p,
@@ -745,13 +848,13 @@ double GreenCoordinates::gcTriInt(const cg3::Vec3d & p,
    return myInt;
 }
 
-void GreenCoordinates::calcScalingFactors(Cage * deformedCage) //È necessaria la deformed cage?
+void GreenCoordinates::calcScalingFactors() //È necessaria la deformed cage?
 {
    std::vector<int>    oldFaces = cage->getTrianglesVector(); //pdò faces ha senso? le facce non cambiano
    std::vector<double> oldCoords = cage->getRestPoseVerticesVector(); //getRestPose?
 
-   std::vector<int>    newFaces = deformedCage->getTrianglesVector();
-   std::vector<double> newCoords = deformedCage->getVerticesVector();
+   std::vector<int>    newFaces = cage->getTrianglesVector();
+   std::vector<double> newCoords = cage->getVerticesVector();
 
    //Id of the current face
    int idF = 0;
@@ -771,7 +874,7 @@ void GreenCoordinates::calcScalingFactors(Cage * deformedCage) //È necessaria l
 
       //Vertices of the current face
       //vec3d v1 = new vec3d(), v2 = new vec3d(), v3 = new vec3d();
-      cg3::Vec3d v1, v2,v3;
+      cg3::Vec3d v1,v2,v3;
       double x,y,z;
 
       //Get coordinate for vertex v1

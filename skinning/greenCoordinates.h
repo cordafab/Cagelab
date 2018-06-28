@@ -16,21 +16,27 @@ public:
    GreenCoordinates(Weights     * _w,
                     Character   * _character,
                     Cage        * _cage);
+   ~GreenCoordinates();
 
       void deform();
       void deformPartial();
 
-      bool generateCoords(Weights     * & weights,
-                          Character   *   character,
-                          Cage        *   cage); //cerca di impostarlo come statico
+      bool generateCoords(/*Weights * & w*/); //cerca di impostarlo come statico
+      inline Weights * getW() const {
+         return weightsV;
+      }
+
 private:
+
+   Weights * weightsV;
+   Weights * weightsF;
 
    //Utilities methods for the calculation of coords and mesh deformation
    double gcTriInt(const cg3::Vec3d & p,
                    const cg3::Vec3d & t1,
                    const cg3::Vec3d & t2,
                    const cg3::Vec3d & eta);
-   void calcScalingFactors(Cage * deformedCage);
+   void calcScalingFactors();
 
    //Green cooordinate functions and scaling factors
    std::vector<std::vector<double> > gcV; //φi(η)  i∈ V

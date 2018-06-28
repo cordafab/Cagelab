@@ -11,6 +11,7 @@
 #include "GUI/glCanvas.h"
 #include "skinning/cageSkinning.h"
 #include "skinning/meanValueCoordinates.h"
+#include "skinning/greenCoordinates.h"
 
 void loadFbxFromFile()
 {
@@ -47,7 +48,7 @@ void loadFbxFromFile()
          //Compute Cage Weights
          if(c->isCharacterLoaded)
          {
-            Weights * cageWeights = nullptr; //memory leak
+            /*Weights * cageWeights = nullptr; //memory leak
 
             if(MeanValueCoordinates::generateCoords(cageWeights, c->character, c->cage))
             {
@@ -58,6 +59,25 @@ void loadFbxFromFile()
                c->areCageWeightsLoaded = true;
                c->isCageSkinningInitialized = true;
                c->isCageDeformerActive = true;
+            }*/
+
+            Weights * cageWeights = nullptr;
+            GreenCoordinates * gc = new GreenCoordinates(cageWeights,
+                                                         c->character,
+                                                         c->cage);
+
+            if(gc->generateCoords())
+            {
+               c->cageWeights = gc->getW();
+               c->cageSkinning = gc;
+
+               c->areCageWeightsLoaded = true;
+               c->isCageSkinningInitialized = true;
+               c->isCageDeformerActive = true;
+            }
+            else
+            {
+               delete gc;
             }
          }
       }
