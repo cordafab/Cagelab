@@ -63,7 +63,7 @@ void loadFbxFromFile()
 
             if(gc->generateCoords())
             {
-               //c->cageWeights = gc->getW();
+               c->cageWeights  = gc->getWeights();
                c->cageSkinning = gc;
 
                c->areCageWeightsLoaded = true;

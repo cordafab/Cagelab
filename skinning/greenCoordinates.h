@@ -24,7 +24,7 @@ public:
 
 
 
-      inline Weights * getWeightsV();
+      inline Weights * getWeights();
       inline Weights * getWeightsF();
 
 private:
@@ -40,8 +40,7 @@ private:
    void calcScalingFactors();
 
    //Green cooordinate functions and scaling factors
-   std::vector<std::vector<double> > gcV; //φi(η)  i∈ V
-   std::vector<std::vector<double> > gcF; //ψj(η)  j∈ F
+
    std::vector<double>               gcS; //Scaling factors
    std::vector<int>                  exitFaces;
 };

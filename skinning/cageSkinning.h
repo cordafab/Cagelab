@@ -17,6 +17,7 @@ public:
    inline void setCage(Cage * _cage) { cage = _cage; }
 
    virtual void deform() = 0;
+   virtual Weights * getWeights() = 0;
 
 protected:
    Character * character;

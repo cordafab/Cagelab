@@ -40,29 +40,22 @@ void loadCageFromFile()
    //Compute MeanValueCoordinates
    if(c->isCharacterLoaded && c->isCageLoaded)
    {
-      //Compute Cage Weights
-      /*Weights * cageWeights = nullptr;
+      /*
+      MeanValueCoordinates * mvc = new MeanValueCoordinates(c->character,
+                                                            c->cage);
+      c->cageSkinning = mvc;
+      c->cageWeights = mvc->getWeights();
+      c->areCageWeightsLoaded = true;
+      c->isCageSkinningInitialized = true;
+      c->isCageDeformerActive = true;
+      */
 
-      if(MeanValueCoordinates::generateCoords(cageWeights,
-                                              (Character*) c->character,
-                                              (Cage *) c->cage))
-      {
-         c->cageWeights = cageWeights;
-         c->cageSkinning = new MeanValueCoordinates(c->cageWeights,
-                                                    (Character*) c->character,
-                                                    (Cage*) c->cage);
-         c->areCageWeightsLoaded = true;
-         c->isCageSkinningInitialized = true;
-         c->isCageDeformerActive = true;
-      }*/
-
-      Weights * cageWeights = nullptr;
       GreenCoordinates * gc = new GreenCoordinates(c->character,
                                                    c->cage);
 
       if(gc->generateCoords())
       {
-         c->cageWeights = gc->getW();
+         c->cageWeights = gc->getWeights();
          c->cageSkinning = gc;
 
          c->areCageWeightsLoaded = true;
@@ -73,8 +66,6 @@ void loadCageFromFile()
       {
          delete gc;
       }
-
-
    }
 
    updateGUI();

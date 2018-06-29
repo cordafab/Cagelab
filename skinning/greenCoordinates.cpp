@@ -40,7 +40,7 @@ void GreenCoordinates::deform()
    int x,y,z, idV, idC=0;
 
    //For each η, vertex of the mesh to deform
-   for(unsigned int k=0; k<gcV.size(); k++)
+   for(unsigned int k=0; k<character->getNumVertices(); k++)
    {
       //Init vectors for compute sum
       cg3::Vec3d sumV, sumF, eta;
@@ -48,7 +48,7 @@ void GreenCoordinates::deform()
       double translInvariance = 0.0;
 
       //For each cage vertex
-      for(unsigned int i=0; i<gcV[k].size(); i++)
+      for(unsigned int i=0; i<cage->getNumVertices(); i++)
       {
          //Index for the current vi, is at i*3
          idV = i*3;
@@ -60,20 +60,20 @@ void GreenCoordinates::deform()
          vi.set(x,y,z);
 
          //Sum φi(η)*vi
-         sumV = sumV + (gcV[k][i]*vi);
+         sumV = sumV + (/*gcV[k][i]*/weightsV->getWeight(i,k)*vi);
 
-         translInvariance += gcV[k][i];
+         translInvariance += weightsV->getWeight(i,k);//gcV[k][i];
       }
 
       //For each face of the deformed cage
-      for(unsigned int j=0; j<gcF[k].size(); j++)
+      for(unsigned int j=0; j<cage->getNumTriangles(); j++)
       {
          //Retrieve normal to the face tj
          normalFj =  cage->getTriangleNormal(j);//.triangle_normal(j);
          assert(fabs(1.0-normalFj.length())<1e-4); //Error in normal value
 
          //Sum ψj(η)*sj*n(t'j)
-         sumF = sumF + (gcF[k][j]*gcS[j]*normalFj);
+         sumF = sumF + (/*gcF[k][j]*/weightsF->getWeight(j,k)*gcS[j]*normalFj);
       }
 
       //New coordinates for each point of the object
@@ -94,6 +94,9 @@ void GreenCoordinates::deform()
 
 bool GreenCoordinates::generateCoords()
 {
+   std::vector<std::vector<double> > gcV; //φi(η)  i∈ V
+   std::vector<std::vector<double> > gcF; //ψj(η)  j∈ F
+
    //Resize and init gcV, gcF vectors
    gcV.resize(character->getNumVertices());
    gcF.resize(character->getNumVertices());
@@ -705,11 +708,31 @@ bool GreenCoordinates::generateCoords()
       gcF[i][closestF] = gcF[i][closestF] + xsol[3];
    }
 
+   //Transfering weights from mvcW to Weights
+
+   weightsV = new Weights(character->getNumVertices(), cage->getNumVertices());
+   for(unsigned long i=0; i<gcV.size(); ++i)
+   {
+      for(unsigned long j=0; j<gcV[i].size(); ++j)
+      {
+         weightsV->setWeight(j,i,gcV[i][j]);
+      }
+   }
+
+   weightsF = new Weights(character->getNumVertices(), cage->getNumTriangles());
+   for(unsigned long i=0; i<gcF.size(); ++i)
+   {
+      for(unsigned long j=0; j<gcF[i].size(); ++j)
+      {
+         weightsF->setWeight(j,i,gcF[i][j]);
+      }
+   }
+
    return true;
 
 }
 
-Weights *GreenCoordinates::getWeightsV()
+Weights *GreenCoordinates::getWeights()
 {
    return weightsV;
 }
