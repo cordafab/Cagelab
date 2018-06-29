@@ -12,8 +12,7 @@ class MeanValueCoordinates:
 {
 public:
    MeanValueCoordinates();
-   MeanValueCoordinates(Weights     * _w,
-                        Character   * _character,
+   MeanValueCoordinates(Character   * _character,
                         Cage        * _cage);
 
    void deform();
@@ -21,6 +20,11 @@ public:
    static bool generateCoords(Weights           * & weights,
                               Character         *   character,
                               Cage              *   cage);
+
+   Weights * getWeights();
+
+private:
+   Weights * weights;
 };
 
 

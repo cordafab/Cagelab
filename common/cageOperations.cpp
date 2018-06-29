@@ -57,8 +57,7 @@ void loadCageFromFile()
       }*/
 
       Weights * cageWeights = nullptr;
-      GreenCoordinates * gc = new GreenCoordinates(cageWeights,
-                                                   c->character,
+      GreenCoordinates * gc = new GreenCoordinates(c->character,
                                                    c->cage);
 
       if(gc->generateCoords())

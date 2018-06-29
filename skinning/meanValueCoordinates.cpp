@@ -8,12 +8,11 @@ MeanValueCoordinates::MeanValueCoordinates()
 
 }
 
-MeanValueCoordinates::MeanValueCoordinates(Weights   * _w,
-                                           Character * _character,
+MeanValueCoordinates::MeanValueCoordinates(Character * _character,
                                            Cage      * _cage)
-   :CageSkinning(_w, _character, _cage)
+   :CageSkinning(_character, _cage)
 {
-
+   generateCoords(weights, character, cage);
 }
 
 void MeanValueCoordinates::deform()
@@ -25,12 +24,12 @@ void MeanValueCoordinates::deform()
    //Add deformation for rest pose
    for(int i=0; i<vertexNumber; ++i)
    {
-      const std::vector<double> & weights = w->getWeights(i);
+      const std::vector<double> & weightsOfI = weights->getWeights(i);
       cg3::Point3d v1;
 
-      for(unsigned long j=0; j<weights.size(); ++j)
+      for(unsigned long j=0; j<weightsOfI.size(); ++j)
       {
-         double w = weights[j];
+         double w = weightsOfI[j];
          v1 += w * cage->getVertex(j);
          totalW += w;
       }
@@ -220,4 +219,9 @@ bool MeanValueCoordinates::generateCoords(Weights   * & weights,
    }
 
    return true;
+}
+
+Weights * MeanValueCoordinates::getWeights()
+{
+    return weights;
 }

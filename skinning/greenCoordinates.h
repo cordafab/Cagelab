@@ -13,18 +13,19 @@ class GreenCoordinates:
 {
 public:
    GreenCoordinates();
-   GreenCoordinates(Weights     * _w,
-                    Character   * _character,
+   GreenCoordinates(Character   * _character,
                     Cage        * _cage);
    ~GreenCoordinates();
 
       void deform();
       void deformPartial();
 
-      bool generateCoords(/*Weights * & w*/); //cerca di impostarlo come statico
-      inline Weights * getW() const {
-         return weightsV;
-      }
+      bool generateCoords(); //cerca di impostarlo come statico
+
+
+
+      inline Weights * getWeightsV();
+      inline Weights * getWeightsF();
 
 private:
 
@@ -41,7 +42,7 @@ private:
    //Green cooordinate functions and scaling factors
    std::vector<std::vector<double> > gcV; //φi(η)  i∈ V
    std::vector<std::vector<double> > gcF; //ψj(η)  j∈ F
-   std::vector<double>               gcS;  //Scaling factors
+   std::vector<double>               gcS; //Scaling factors
    std::vector<int>                  exitFaces;
 };
 
