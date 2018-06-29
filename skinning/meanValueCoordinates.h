@@ -14,6 +14,7 @@ public:
    MeanValueCoordinates();
    MeanValueCoordinates(Character   * _character,
                         Cage        * _cage);
+   ~MeanValueCoordinates();
 
    void deform();
 

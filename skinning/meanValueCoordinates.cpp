@@ -15,6 +15,11 @@ MeanValueCoordinates::MeanValueCoordinates(Character * _character,
    generateCoords(weights, character, cage);
 }
 
+MeanValueCoordinates::~MeanValueCoordinates()
+{
+   if(weights) delete weights;
+}
+
 void MeanValueCoordinates::deform()
 {
    int vertexNumber = character->getNumVertices();

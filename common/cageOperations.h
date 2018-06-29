@@ -6,6 +6,7 @@ void loadCageFromFile();
 void saveCageToFile();
 void saveCageWeightsToFile();
 void clearCage();
+void computeCageWeights();
 void updateCageInfluenceTexture();
 void switchCageDeformation();
 

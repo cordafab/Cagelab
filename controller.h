@@ -11,6 +11,9 @@ class DrawableObject;
 
 class Weights;
 class CageSkinning;
+class NoCageSkinning;
+class MeanValueCoordinates;
+class GreenCoordinates;
 
 class GlCanvas;
 class FbxImportPanel;
@@ -34,6 +37,10 @@ public:
    //Skinning
    Weights              * cageWeights;
    CageSkinning         * cageSkinning;
+
+   NoCageSkinning       * nc;
+   MeanValueCoordinates * mvc;
+   GreenCoordinates     * gc;
 
    bool                   areCageWeightsLoaded;
    bool                   isCageSkinningInitialized;

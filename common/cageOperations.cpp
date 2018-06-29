@@ -9,6 +9,7 @@
 #include "drawables/drawableCage.h"
 #include "drawables/drawableCharacter.h"
 #include "GUI/glCanvas.h"
+#include "skinning/noCageSkinning.h"
 #include "skinning/meanValueCoordinates.h"
 #include "skinning/greenCoordinates.h"
 #include "skinning/cageSkinning.h"
@@ -37,36 +38,7 @@ void loadCageFromFile()
       c->isCageLoaded = true;
    }
 
-   //Compute MeanValueCoordinates
-   if(c->isCharacterLoaded && c->isCageLoaded)
-   {
-      /*
-      MeanValueCoordinates * mvc = new MeanValueCoordinates(c->character,
-                                                            c->cage);
-      c->cageSkinning = mvc;
-      c->cageWeights = mvc->getWeights();
-      c->areCageWeightsLoaded = true;
-      c->isCageSkinningInitialized = true;
-      c->isCageDeformerActive = true;
-      */
-
-      GreenCoordinates * gc = new GreenCoordinates(c->character,
-                                                   c->cage);
-
-      if(gc->generateCoords())
-      {
-         c->cageWeights = gc->getWeights();
-         c->cageSkinning = gc;
-
-         c->areCageWeightsLoaded = true;
-         c->isCageSkinningInitialized = true;
-         c->isCageDeformerActive = true;
-      }
-      else
-      {
-         delete gc;
-      }
-   }
+   computeCageWeights();
 
    updateGUI();
 
@@ -114,8 +86,11 @@ void clearCage()
 
    if(c->areCageWeightsLoaded)
    {
-      delete c->cageWeights;
+      delete c->mvc;
+      delete c->gc;
       c->cageWeights = nullptr;
+      c->mvc = nullptr;
+      c->gc = nullptr;
       c->areCageWeightsLoaded = false;
    }
 
@@ -179,4 +154,35 @@ void switchCageDeformation()
    c->isCageDeformerActive = !c->isCageDeformerActive;
    c->cage->activateTransformation = !c->cage->activateTransformation;
    updateGUI();
+}
+
+void computeCageWeights()
+{
+   Controller * c = Controller::get();
+   //Compute MeanValueCoordinates
+   if(c->isCharacterLoaded && c->isCageLoaded)
+   {
+
+      NoCageSkinning * nc = new NoCageSkinning(c->character, c->cage);
+      c->nc = nc;
+
+      MeanValueCoordinates * mvc = new MeanValueCoordinates(c->character,
+                                                            c->cage);
+      c->mvc = mvc;
+      //c->cageSkinning = mvc;
+      //c->cageWeights = mvc->getWeights();
+
+      GreenCoordinates * gc = new GreenCoordinates(c->character,
+                                                   c->cage);
+      gc->generateCoords();
+      c->gc = gc;
+
+      c->cageWeights = mvc->getWeights();
+      c->cageSkinning = mvc;
+
+      c->areCageWeightsLoaded = true;
+      c->isCageSkinningInitialized = true;
+      c->isCageDeformerActive = true;
+
+   }
 }

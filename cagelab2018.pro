@@ -45,7 +45,8 @@ HEADERS = \
     math/leastSquareSolver.h \
     math/quaternion.h \
     geom/ray.h \
-    skinning/greenCoordinates.h
+    skinning/greenCoordinates.h \
+    skinning/noCageSkinning.h
 
 SOURCES = \
     main.cpp \
@@ -81,7 +82,8 @@ SOURCES = \
     common/toolsOperation.cpp \
     GUI/toolsPanel.cpp \
     common/characterOperations.cpp \
-    skinning/greenCoordinates.cpp
+    skinning/greenCoordinates.cpp \
+    skinning/noCageSkinning.cpp
 
 FORMS *= \
     GUI/mainWindow.ui \

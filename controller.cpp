@@ -10,6 +10,9 @@ Controller::Controller()
 
    cageWeights                      = nullptr;
    cageSkinning                     = nullptr;
+   nc                               = nullptr;
+   mvc                              = nullptr;
+   gc                               = nullptr;
 
    areCageWeightsLoaded             = false;
    isCageSkinningInitialized        = false;

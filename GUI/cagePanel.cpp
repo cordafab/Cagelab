@@ -6,6 +6,7 @@
 #include "GUI/glCanvas.h"
 
 #include "common/cageOperations.h"
+#include "skinning/cageSkinning.h"
 
 //TEST
 #include "drawables/drawableCharacter.h"
@@ -44,10 +45,51 @@ void CagePanel::on_drawCageCB_clicked(bool checked)
 
 void CagePanel::on_weightsExport_clicked()
 {
-    saveCageWeightsToFile();
+   saveCageWeightsToFile();
 }
 
 void CagePanel::on_save_clicked(bool checked)
 {
-    saveCageToFile();
+   saveCageToFile();
+}
+
+void CagePanel::on_computeWeights_clicked()
+{
+   computeCageWeights();
+   ui->noCoordinates->setEnabled(true);
+   ui->mvcCoordinates->setEnabled(true);
+   ui->greenCoordinates->setEnabled(true);
+}
+
+void CagePanel::on_noCoordinates_toggled(bool checked)
+{
+   Controller * c = Controller::get();
+   if(c->areCageWeightsLoaded)
+   {
+      c->cageSkinning = (CageSkinning *)c->nc;
+      c->cageWeights = c->cageSkinning->getWeights();
+      c->glCanvas->updateGL();
+   }
+}
+
+void CagePanel::on_mvcCoordinates_toggled(bool checked)
+{
+   Controller * c = Controller::get();
+   if(c->areCageWeightsLoaded)
+   {
+      c->cageSkinning = (CageSkinning *)c->mvc;
+      c->cageWeights = c->cageSkinning->getWeights();
+      c->glCanvas->updateGL();
+   }
+}
+
+void CagePanel::on_greenCoordinates_toggled(bool checked)
+{
+   Controller * c = Controller::get();
+   if(c->areCageWeightsLoaded)
+   {
+      c->cageSkinning = (CageSkinning *)c->gc;
+      c->cageWeights = c->cageSkinning->getWeights();
+      c->glCanvas->updateGL();
+   }
 }

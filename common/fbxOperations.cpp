@@ -44,37 +44,6 @@ void loadFbxFromFile()
          c->glCanvas->pushPickableObject(cage);
          c->cage = cage;
          c->isCageLoaded = true;
-
-         //Compute Cage Weights
-         if(c->isCharacterLoaded)
-         {
-            /*
-            MeanValueCoordinates * mvc = new MeanValueCoordinates(c->character,
-                                                                  c->cage);
-            c->cageSkinning = mvc;
-            c->cageWeights = mvc->getWeights();
-            c->areCageWeightsLoaded = true;
-            c->isCageSkinningInitialized = true;
-            c->isCageDeformerActive = true;
-            */
-
-            GreenCoordinates * gc = new GreenCoordinates(c->character,
-                                                         c->cage);
-
-            if(gc->generateCoords())
-            {
-               c->cageWeights  = gc->getWeights();
-               c->cageSkinning = gc;
-
-               c->areCageWeightsLoaded = true;
-               c->isCageSkinningInitialized = true;
-               c->isCageDeformerActive = true;
-            }
-            else
-            {
-               delete gc;
-            }
-         }
       }
    }
 

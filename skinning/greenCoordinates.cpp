@@ -20,7 +20,8 @@ GreenCoordinates::GreenCoordinates(Character * _character,
 
 GreenCoordinates::~GreenCoordinates()
 {
-
+   if(weightsV) delete weightsV;
+   if(weightsF) delete weightsF;
 }
 
 void GreenCoordinates::deform()
