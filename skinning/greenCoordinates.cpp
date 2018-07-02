@@ -768,17 +768,17 @@ double GreenCoordinates::gcTriInt(const cg3::Vec3d & p,
    double tmpval = (t2mt1.dot(pmt1)) / den;
 
    //Exit condition
-   if(abs(tmpval)>(1.0-EPS))
+   if(std::abs(tmpval)>(1.0-EPS))
    {
       return 0.0;
    }
 
-   double alpha = acos(tmpval);
+   double alpha = std::acos(tmpval);
 
    //Exit condition
 
 
-   if(abs(alpha-M_PI) < EPS || abs(alpha) < EPS)
+   if(std::abs(alpha-M_PI) < EPS || std::abs(alpha) < EPS)
    {
       return 0.0;
    }
@@ -788,14 +788,14 @@ double GreenCoordinates::gcTriInt(const cg3::Vec3d & p,
    tmpval = (pmt1.dot(pmt2)) / (den);
 
    //Exit condition
-   if(abs(tmpval)>(1.0-EPS))
+   if(std::abs(tmpval)>(1.0-EPS))
    {
       return 0.0;
    }
 
-   double beta = acos(tmpval);
+   double beta = std::acos(tmpval);
 
-   double lambda = pmt1.lengthSquared()*sin(alpha)*sin(alpha);
+   double lambda = pmt1.lengthSquared()*std::sin(alpha)*std::sin(alpha);
 
    //First value of delta
    double delta = M_PI-alpha;
@@ -805,12 +805,12 @@ double GreenCoordinates::gcTriInt(const cg3::Vec3d & p,
    // c=||p-eta||^2
    double c = pmeta.lengthSquared();
 
-   double sqrt_c = sqrt(c);
+   double sqrt_c = std::sqrt(c);
 
    //Direct calculation
-   double sqrt_l = sqrt(lambda);
-   double S = sin(delta);
-   double C = cos(delta);
+   double sqrt_l = std::sqrt(lambda);
+   double S = std::sin(delta);
+   double C = std::cos(delta);
 
    //Compute sign of S
    double sign_S = sign2(S);
@@ -820,30 +820,30 @@ double GreenCoordinates::gcTriInt(const cg3::Vec3d & p,
 
    //Idelta
    double den1=0.0, den2=0.0, den3=0.0;
-   den1 = (sqrt(lambda+c*S*S) );
-   den2 = (c*(1+C)+lambda+sqrt_l*sqrt(lambda+c*S*S));
-   den3 = pow((1-C),2);
+   den1 = (std::sqrt(lambda+c*S*S) );
+   den2 = (c*(1+C)+lambda+sqrt_l*std::sqrt(lambda+c*S*S));
+   den3 = std::pow((1-C),2);
 
 
-   I = -0.5*sign_S*( 2*sqrt_c*atan((sqrt_c*C) / (den1) )+sqrt_l*log(((sqrt_l*(1-2*c*C/(den2))))*(2*S*S/(den3))));
+   I = -0.5*sign_S*( 2*sqrt_c*std::atan((sqrt_c*C) / (den1) )+sqrt_l*std::log(((sqrt_l*(1-2*c*C/(den2))))*(2*S*S/(den3))));
 
 
    //Update value for delta, S, C and sign od S
    delta = delta-beta;
-   S = sin(delta);
-   C = cos(delta);
+   S = std::sin(delta);
+   C = std::cos(delta);
    sign_S = sign2(S);
 
-   den1 = (sqrt(lambda+c*S*S) );
-   den2 = (c*(1+C)+lambda+sqrt_l*sqrt(lambda+c*S*S));
-   den3 = pow((1-C),2);
+   den1 = (std::sqrt(lambda+c*S*S) );
+   den2 = (c*(1+C)+lambda+sqrt_l*std::sqrt(lambda+c*S*S));
+   den3 = std::pow((1-C),2);
 
    //IIdelta
-   II = -0.5*sign_S*( 2*sqrt_c*atan((sqrt_c*C) / den1 )+sqrt_l*(log((sqrt_l*(1-2*c*C/den2))*(2*S*S/den3))));
+   II = -0.5*sign_S*( 2*sqrt_c*std::atan((sqrt_c*C) / den1 )+sqrt_l*(std::log((sqrt_l*(1-2*c*C/den2))*(2*S*S/den3))));
 
 
    //Compute myInt and return value
-   double myInt = (-1.0/(4*M_PI))*abs(I-II-sqrt_c*beta);
+   double myInt = (-1.0/(4*M_PI))*std::abs(I-II-sqrt_c*beta);
    return myInt;
 
 }
@@ -942,8 +942,8 @@ void GreenCoordinates::calcScalingFactors() //È necessaria la deformed cage?
 
 
       //Compute scaling factor
-      gcS[idF] = (sqrt( u_p.lengthSquared()*v.lengthSquared() - 2*((u_p.dot(v_p))*(u.dot(v)))
-                        + v_p.lengthSquared()*u.lengthSquared()) ) / (sqrt(8)*areaT);
+      gcS[idF] = (std::sqrt( u_p.lengthSquared()*v.lengthSquared() - 2*((u_p.dot(v_p))*(u.dot(v)))
+                        + v_p.lengthSquared()*u.lengthSquared()) ) / (std::sqrt(8)*areaT);
 
       //Next face
       idF++;
