@@ -92,6 +92,9 @@ FORMS *= \
     GUI/characterPanel.ui \
     GUI/toolsPanel.ui
 
+RESOURCES += \
+    icons.qrc
+
 
 
 ## LIB libQGLViewer configurations

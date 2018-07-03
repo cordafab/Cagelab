@@ -34,23 +34,38 @@ void ToolsPanel::updateCageDeformationButton()
 void ToolsPanel::updateInteractionModeButtons()
 {
    Controller * c = Controller::get();
-   ui->interCamera->setText("Camera NO");
+   /*ui->interCamera->setText("Camera NO");
    ui->interSelect->setText("Select NO");
    ui->interDeselect->setText("Deselect NO");
-   ui->interDeform->setText("Deform NO");
+   ui->interDeform->setText("Deform NO");*/
+   ui->interCamera->setIcon(QIcon(QPixmap(":/GUI/icons/noneIconButton.png")));
+   ui->interCamera->setIconSize(QSize(48, 48));
+
+   ui->interSelect->setIcon(QIcon(QPixmap(":/GUI/icons/selectIconButton.png")));
+   ui->interSelect->setIconSize(QSize(48, 48));
+
+   ui->interDeselect->setIcon(QIcon(QPixmap(":/GUI/icons/deselectIconButton.png")));
+   ui->interDeselect->setIconSize(QSize(48, 48));
+
+   ui->interDeform->setIcon(QIcon(QPixmap(":/GUI/icons/deformIconButton.png")));
+   ui->interDeform->setIconSize(QSize(48, 48));
    switch(c->interactionMode)
    {
       case CAMERA_INTERACTION:
-         ui->interCamera->setText("Camera YES");
+         ui->interCamera->setIcon(QIcon(QPixmap(":/GUI/icons/AnoneIconButton.png")));
+         ui->interCamera->setIconSize(QSize(48, 48));
          break;
       case SELECT_INTERACTION:
-         ui->interSelect->setText("Select YES");
+         ui->interSelect->setIcon(QIcon(QPixmap(":/GUI/icons/AselectIconButton.png")));
+         ui->interSelect->setIconSize(QSize(48, 48));
          break;
       case DESELECT_INTERACTION:
-         ui->interDeselect->setText("Deselect YES");
+         ui->interDeselect->setIcon(QIcon(QPixmap(":/GUI/icons/AdeselectIconButton.png")));
+         ui->interDeselect->setIconSize(QSize(48, 48));
          break;
       case DEFORM_INTERACTION:
-         ui->interDeform->setText("Deform YES");
+         ui->interDeform->setIcon(QIcon(QPixmap(":/GUI/icons/AdeformIconButton.png")));
+         ui->interDeform->setIconSize(QSize(48, 48));
          break;
    }
 }

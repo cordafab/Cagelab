@@ -1,0 +1,14 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>GUI/icons/noneIconButton.png</file>
+    <file>GUI/icons/selectIconButton.png</file>
+    <file>GUI/icons/deselectIconButton.png</file>
+    <file>GUI/icons/deformIconButton.png</file>
+    <file>GUI/icons/AnoneIconButton.png</file>
+    <file>GUI/icons/AselectIconButton.png</file>
+    <file>GUI/icons/AdeselectIconButton.png</file>
+    <file>GUI/icons/AdeformIconButton.png</file>
+    <file>GUI/icons/openButton.png</file>
+    <file>GUI/icons/saveButton.png</file>
+</qresource>
+</RCC>

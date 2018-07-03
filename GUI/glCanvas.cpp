@@ -417,6 +417,27 @@ void GlCanvas::wheelEvent(QWheelEvent *e)
       QGLViewer::wheelEvent(e);
 }
 
+void GlCanvas::keyPressEvent(QKeyEvent *e)
+{
+   switch (e->key())
+   {
+      case Qt::Key_1:
+         setInteractionMode(CAMERA_INTERACTION);
+         break;
+      case Qt::Key_2:
+         setInteractionMode(SELECT_INTERACTION);
+         break;
+      case Qt::Key_3:
+         setInteractionMode(DESELECT_INTERACTION);
+         break;
+      case Qt::Key_4:
+         setInteractionMode(DEFORM_INTERACTION);
+         break;
+      default:
+         QGLViewer::keyPressEvent(e);
+   }
+}
+
 
 //Selection
 void GlCanvas::endSelection(const QPoint&)

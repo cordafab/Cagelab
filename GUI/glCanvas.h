@@ -51,9 +51,6 @@ protected :
    cg3::Vec3d sceneCenter;
    double sceneRadius;
 
-   InteractionMode previousInteractionMode;
-   bool restoreInteractionMode;
-
    void init();
 
    QColor customBackgroundColor;
@@ -63,6 +60,9 @@ protected :
    void mouseMoveEvent(QMouseEvent *e);
    void mouseReleaseEvent(QMouseEvent *e);
    void wheelEvent(QWheelEvent *e);
+
+   //Keyboard Customization
+   void keyPressEvent(QKeyEvent *e);
 
    //Selection
    void endSelection(const QPoint &);
@@ -78,6 +78,10 @@ protected :
    cg3::Point3d rotationCenter;
    cg3::Vec3d rotationAxis;
    bool computeCenterOfRotation();
+
+   //Stuff for interactionModes
+   InteractionMode previousInteractionMode;
+   bool restoreInteractionMode;
 
    //Deformation of selected objects
    void computePickableObjectsTranslation();
