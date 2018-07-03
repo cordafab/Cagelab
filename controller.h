@@ -21,6 +21,14 @@ class CharacterPanel;
 class CagePanel;
 class ToolsPanel;
 
+//Interaction mode
+enum InteractionMode {
+   CAMERA_INTERACTION,
+   SELECT_INTERACTION,
+   DESELECT_INTERACTION,
+   DEFORM_INTERACTION
+};
+
 class Controller
 {
 public:
@@ -53,6 +61,9 @@ public:
    CharacterPanel       * characterPanel;
    CagePanel            * cagePanel;
    ToolsPanel           * toolsPanel;
+
+   //Interaction
+   InteractionMode        interactionMode;
 
    ~Controller();
 

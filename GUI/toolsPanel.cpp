@@ -31,6 +31,30 @@ void ToolsPanel::updateCageDeformationButton()
    }
 }
 
+void ToolsPanel::updateInteractionModeButtons()
+{
+   Controller * c = Controller::get();
+   ui->interCamera->setText("Camera NO");
+   ui->interSelect->setText("Select NO");
+   ui->interDeselect->setText("Deselect NO");
+   ui->interDeform->setText("Deform NO");
+   switch(c->interactionMode)
+   {
+      case CAMERA_INTERACTION:
+         ui->interCamera->setText("Camera YES");
+         break;
+      case SELECT_INTERACTION:
+         ui->interSelect->setText("Select YES");
+         break;
+      case DESELECT_INTERACTION:
+         ui->interDeselect->setText("Deselect YES");
+         break;
+      case DEFORM_INTERACTION:
+         ui->interDeform->setText("Deform YES");
+         break;
+   }
+}
+
 void ToolsPanel::on_cageDeformation_clicked()
 {
    switchCageDeformation();
@@ -45,4 +69,24 @@ void ToolsPanel::on_saveCamera_clicked()
 void ToolsPanel::on_restoreCamera_clicked()
 {
     restoreCamera();
+}
+
+void ToolsPanel::on_interCamera_clicked()
+{
+   activateCameraInteractionMode();
+}
+
+void ToolsPanel::on_interSelect_clicked()
+{
+   activateSelectionInteractionMode();
+}
+
+void ToolsPanel::on_interDeselect_clicked()
+{
+   activateDeselectInteractionMode();
+}
+
+void ToolsPanel::on_interDeform_clicked()
+{
+   activateDeformationInteractionMode();
 }

@@ -26,6 +26,8 @@ Controller::Controller()
    characterPanel                   = nullptr;
    cagePanel                        = nullptr;
    toolsPanel                       = nullptr;
+
+   interactionMode                  = CAMERA_INTERACTION;
 }
 
 Controller::~Controller()

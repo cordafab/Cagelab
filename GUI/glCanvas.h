@@ -33,6 +33,8 @@ public :
    void refreshScene();
    void fitScene();
 
+   void setInteractionMode(InteractionMode mode, bool quickMode=false, bool restorePreviousMode=false);
+
    //Utilities for Camera saving
    void saveCamera();
    void restoreCamera();
@@ -49,8 +51,8 @@ protected :
    cg3::Vec3d sceneCenter;
    double sceneRadius;
 
-   enum InteractionMode { CAMERA, SELECT, DESELECT, DEFORM };
-   InteractionMode interactionMode;
+   InteractionMode previousInteractionMode;
+   bool restoreInteractionMode;
 
    void init();
 

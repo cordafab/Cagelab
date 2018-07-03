@@ -10,6 +10,7 @@
 #include "skinning/cageSkinning.h"
 
 #include "common/cageOperations.h"
+#include "common/toolsOperation.h"
 
 #include <QMouseEvent>
 #include "QGLviewer/camera.h"
@@ -37,7 +38,10 @@ void GlCanvas::init()
 
    fitScene();
 
-   interactionMode = CAMERA;
+   controller->interactionMode = CAMERA_INTERACTION;
+   previousInteractionMode = CAMERA_INTERACTION;
+   restoreInteractionMode = false;
+
    isSelectionRectangleActive = false;
 
    customBackgroundColor.setRgb(255,255,255);
@@ -171,6 +175,69 @@ void GlCanvas::fitScene()
    showEntireScene();
 }
 
+void GlCanvas::setInteractionMode(InteractionMode mode, bool quickMode, bool restorePreviousMode)
+{
+
+   controller->interactionMode = mode;
+   switch(mode)
+   {
+      case CAMERA_INTERACTION:
+         setMouseBinding(Qt::NoModifier, Qt::LeftButton, QGLViewer::CAMERA, QGLViewer::ROTATE);
+         setMouseBinding(Qt::NoModifier, Qt::RightButton, QGLViewer::CAMERA, QGLViewer::TRANSLATE);
+         //emit disable_none_button();
+         //std::cout << "NONE MODE ACTIVATED" << endl;
+         if(!quickMode)
+         {
+            if(!restorePreviousMode) displayMessage("CAMERA MODE ACTIVATED. PRESS H FOR HELP.", 4000);
+         } else {
+            displayMessage("QUICK CAMERA MODE ACTIVATED. PRESS H FOR HELP.", 2000);
+         }
+         //updateGL();
+         break;
+      case SELECT_INTERACTION:
+         setMouseBinding(Qt::NoModifier, Qt::LeftButton, QGLViewer::NO_CLICK_ACTION, false, Qt::NoButton);
+         setMouseBinding(Qt::NoModifier, Qt::RightButton, QGLViewer::NO_CLICK_ACTION, false, Qt::NoButton);
+         //emit disable_add_button();
+         //std::cout << "ADD MODE ACTIVATED" << endl;
+         if(!quickMode)
+         {
+            if(!restorePreviousMode) displayMessage("SELECT CAGE VERTEX MODE ACTIVATED. PRESS H FOR HELP.", 4000);
+         } else {
+            displayMessage("QUICK SELECT CAGE VERTEX MODE ACTIVATED. PRESS H FOR HELP.", 2000);
+         }
+         //updateGL();
+         break;
+      case DESELECT_INTERACTION:
+         setMouseBinding(Qt::NoModifier, Qt::LeftButton, QGLViewer::NO_CLICK_ACTION, false, Qt::NoButton);
+         setMouseBinding(Qt::NoModifier, Qt::RightButton, QGLViewer::NO_CLICK_ACTION, false, Qt::NoButton);
+         //emit disable_remove_button();
+         //std::cout << "REMOVE MODE ACTIVATED" << endl;
+         if(!quickMode)
+         {
+            if(!restorePreviousMode) displayMessage("DESELECT CAGE VERTEX MODE ACTIVATED. PRESS H FOR HELP.", 4000);
+         } else {
+            displayMessage("QUICK DESELECT CAGE VERTEX MODE ACTIVATED. PRESS H FOR HELP.", 2000);
+         }
+         //updateGL();
+         break;
+      case DEFORM_INTERACTION:   //If is cage skinning activated?
+         setMouseBinding(Qt::NoModifier, Qt::LeftButton, QGLViewer::NO_CLICK_ACTION, false, Qt::NoButton);
+         setMouseBinding(Qt::NoModifier, Qt::RightButton, QGLViewer::NO_CLICK_ACTION, false, Qt::NoButton);
+         //emit disable_deform_button();
+         //std::cout << "DEFORM MODE ACTIVATED" << endl;
+         if(!quickMode)
+         {
+            if(!restorePreviousMode) displayMessage("CAGE DEFORMATION MODE ACTIVATED. PRESS H FOR HELP.", 4000);
+         } else {
+            displayMessage("QUICK CAGE DEFORMATION MODE ACTIVATED. PRESS H FOR HELP.", 2000);
+         }
+         //updateGL();
+         break;
+   }
+   updateToolsGUI();
+
+}
+
 void GlCanvas::saveCamera()
 {
    savedCameraPosition = camera()->position();
@@ -192,21 +259,27 @@ void GlCanvas::restoreCamera()
 void GlCanvas::mousePressEvent(QMouseEvent* e)
 {
    if ( e->modifiers()==Qt::ShiftModifier ){
-      interactionMode = SELECT;
+      previousInteractionMode = controller->interactionMode;
+      restoreInteractionMode = true;
+      setInteractionMode(SELECT_INTERACTION, true);
       } else
    if ( e->modifiers()==Qt::AltModifier ){
-      interactionMode = DESELECT;
+      previousInteractionMode = controller->interactionMode;
+      restoreInteractionMode = true;
+      setInteractionMode(DESELECT_INTERACTION, true);
       } else
    if ( e->modifiers()==Qt::ControlModifier ){
-      interactionMode = DEFORM;
+      previousInteractionMode = controller->interactionMode;
+      restoreInteractionMode = true;
+      setInteractionMode(DEFORM_INTERACTION, true);
    }
 
-   if ((interactionMode == SELECT) || (interactionMode == DESELECT))
+   if ((controller->interactionMode == SELECT_INTERACTION) || (controller->interactionMode == DESELECT_INTERACTION))
    {
       selectionRectangle = QRect(e->pos(), e->pos());
       isSelectionRectangleActive = true;
       } else
-   if (interactionMode == DEFORM)
+   if (controller->interactionMode == DEFORM_INTERACTION)
    {
       //ClickConverter Initialization
       qglviewer::Vec qglCameraPosition = camera()->position();
@@ -233,7 +306,7 @@ void GlCanvas::mousePressEvent(QMouseEvent* e)
       } else
       if (e->buttons() & Qt::LeftButton)
       {
-         computeCenterOfRotation(); //Remove?
+         computeCenterOfRotation();
       }
    }
    else
@@ -242,12 +315,12 @@ void GlCanvas::mousePressEvent(QMouseEvent* e)
 
 void GlCanvas::mouseMoveEvent(QMouseEvent* e)
 {
-   if ((interactionMode == SELECT) || (interactionMode == DESELECT))
+   if ((controller->interactionMode == SELECT_INTERACTION) || (controller->interactionMode == DESELECT_INTERACTION))
    {
       selectionRectangle.setBottomRight(e->pos());
       updateGL();
       } else
-   if ( interactionMode == DEFORM )
+   if ( controller->interactionMode == DEFORM_INTERACTION )
    {
 
       if (e->buttons() & Qt::RightButton)
@@ -276,7 +349,7 @@ void GlCanvas::mouseMoveEvent(QMouseEvent* e)
 
 void GlCanvas::mouseReleaseEvent(QMouseEvent* e)
 {
-   if ((interactionMode == SELECT) || (interactionMode == DESELECT))
+   if ((controller->interactionMode == SELECT_INTERACTION) || (controller->interactionMode == DESELECT_INTERACTION))
    {
       selectionRectangle = selectionRectangle.normalized();
       int width = selectionRectangle.width();
@@ -293,10 +366,8 @@ void GlCanvas::mouseReleaseEvent(QMouseEvent* e)
       isSelectionRectangleActive = false;
       updateGL();
    }
-   else if ( interactionMode==DEFORM )
+   else if (controller->interactionMode==DEFORM_INTERACTION)
    {
-      interactionMode = CAMERA;
-
       if(controller->isCageSkinningInitialized &&
             controller->cage->refreshCharacterPose())
       {
@@ -306,20 +377,41 @@ void GlCanvas::mouseReleaseEvent(QMouseEvent* e)
       }
       updateGL();
    }
-   else
-      QGLViewer::mouseReleaseEvent(e);
+
+   if(restoreInteractionMode)
+   {
+      restoreInteractionMode = false;
+      setInteractionMode(previousInteractionMode, false, true);
+   }
+
+   QGLViewer::mouseReleaseEvent(e);
 }
 
 void GlCanvas::wheelEvent(QWheelEvent *e)
 {
-   if(e->modifiers()==Qt::ControlModifier    &&
-      controller->isCageSkinningInitialized  )
+   if(e->modifiers()==Qt::ControlModifier)
    {
-      computeCenterOfRotation();
-      computePickableObjectsScaling(e->delta());
-      controller->cageSkinning->deform();
-      controller->cage->characterPoseRefreshed();
-      updateGL();
+      previousInteractionMode = controller->interactionMode;
+      restoreInteractionMode = true;
+      setInteractionMode(DEFORM_INTERACTION, true);
+   }
+
+   if(controller->interactionMode==DEFORM_INTERACTION)
+   {
+      if(controller->isCageSkinningInitialized)
+      {
+         computeCenterOfRotation();
+         computePickableObjectsScaling(e->delta());
+         controller->cageSkinning->deform();
+         controller->cage->characterPoseRefreshed();
+         updateGL();
+      }
+
+      if(restoreInteractionMode)
+      {
+         restoreInteractionMode = false;
+         setInteractionMode(previousInteractionMode, false, true);
+      }
    }
    else
       QGLViewer::wheelEvent(e);
@@ -337,24 +429,23 @@ void GlCanvas::endSelection(const QPoint&)
       for (int i=0; i<nbHits; ++i)
       {
          int pickedIndex = (selectBuffer())[4*i+3];
-         switch(interactionMode)
+         switch(controller->interactionMode)
          {
-            case SELECT:
+            case SELECT_INTERACTION:
                pickerController->getObject(pickedIndex)->selectObject(pickedIndex);
                break;
-            case DESELECT:
+            case DESELECT_INTERACTION:
                pickerController->getObject(pickedIndex)->deselectObject(pickedIndex);
                break;
             default: break;
          }
       }
 
-      if(interactionMode==SELECT || interactionMode==DESELECT){
+      if(controller->interactionMode==SELECT_INTERACTION || controller->interactionMode==DESELECT_INTERACTION){
          if(controller->isCageWeightsRenderActive)
             updateCageInfluenceTexture();
       }
    }
-   interactionMode = CAMERA;
 }
 
 //Valuta se eliminarlo. Ora il calcolo del centro di rotazione è ridondante all'interno di DrawableCage

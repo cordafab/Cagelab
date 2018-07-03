@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>90</width>
-    <height>500</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -33,7 +33,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>90</y>
+      <y>340</y>
       <width>70</width>
       <height>70</height>
      </rect>
@@ -46,7 +46,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>170</y>
+      <y>420</y>
       <width>70</width>
       <height>3</height>
      </rect>
@@ -59,7 +59,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>260</y>
+      <y>510</y>
       <width>70</width>
       <height>3</height>
      </rect>
@@ -72,7 +72,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>180</y>
+      <y>430</y>
       <width>70</width>
       <height>31</height>
      </rect>
@@ -85,13 +85,78 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>220</y>
+      <y>470</y>
       <width>70</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
      <string>RestCam</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="interCamera">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>70</width>
+      <height>70</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Camera</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="interSelect">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>70</width>
+      <height>70</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Select</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="interDeselect">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>170</y>
+      <width>70</width>
+      <height>70</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Deselect</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="interDeform">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>250</y>
+      <width>70</width>
+      <height>70</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Deform</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>330</y>
+      <width>70</width>
+      <height>3</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
     </property>
    </widget>
   </widget>
