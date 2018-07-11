@@ -15,6 +15,8 @@ class NoCageSkinning;
 class MeanValueCoordinates;
 class GreenCoordinates;
 
+class Animator;
+
 class GlCanvas;
 class FbxImportPanel;
 class CharacterPanel;
@@ -54,6 +56,10 @@ public:
    bool                   isCageSkinningInitialized;
    bool                   isCageWeightsRenderActive;
    bool                   isCageDeformerActive;
+
+   Animator             * animator;
+
+   bool                   isAnimatorInitialized;
 
    //GUI
    GlCanvas             * glCanvas;

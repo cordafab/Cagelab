@@ -6,6 +6,7 @@
 #include "common/ioFBX.h"
 #include "common/characterOperations.h"
 #include "common/cageOperations.h"
+#include "common/animatorOperations.h"
 #include "controller.h"
 #include "drawables/drawableCharacter.h"
 #include "GUI/glCanvas.h"
@@ -45,6 +46,8 @@ void loadFbxFromFile()
          c->cage = cage;
          c->isCageLoaded = true;
       }
+
+      initializeAnimator();
    }
 
    updateGUI();

@@ -4,6 +4,7 @@
 #include "controller.h"
 #include "common/cageOperations.h"
 #include "common/toolsOperation.h"
+#include "common/animatorOperations.h"
 
 ToolsPanel::ToolsPanel(QWidget *parent) :
    QDockWidget(parent),
@@ -104,4 +105,14 @@ void ToolsPanel::on_interDeselect_clicked()
 void ToolsPanel::on_interDeform_clicked()
 {
    activateDeformationInteractionMode();
+}
+
+void ToolsPanel::on_NextKey_clicked()
+{
+   setNextKeyframe();
+}
+
+void ToolsPanel::on_SaveKey_clicked()
+{
+    addKeyframe();
 }

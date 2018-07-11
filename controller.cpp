@@ -16,10 +16,10 @@ Controller::Controller()
 
    areCageWeightsLoaded             = false;
    isCageSkinningInitialized        = false;
-
    isCageWeightsRenderActive        = false;
-
    isCageDeformerActive             = false;
+
+
 
    glCanvas                         = nullptr;
    fbxImportPanel                   = nullptr;

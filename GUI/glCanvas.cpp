@@ -42,6 +42,8 @@ void GlCanvas::init()
    previousInteractionMode = CAMERA_INTERACTION;
    restoreInteractionMode = false;
 
+   xPivot = yPivot = zPivot = false;
+
    isSelectionRectangleActive = false;
 
    customBackgroundColor.setRgb(255,255,255);
@@ -284,8 +286,10 @@ void GlCanvas::mousePressEvent(QMouseEvent* e)
       //ClickConverter Initialization
       qglviewer::Vec qglCameraPosition = camera()->position();
       qglviewer::Vec qglCameraDirection = camera()->viewDirection();
+      qglviewer::Vec qglCameraUp = camera()->upVector();
       cg3::Vec3d cameraPosition(qglCameraPosition.x, qglCameraPosition.y, qglCameraPosition.z);
       cg3::Vec3d cameraDirection(qglCameraDirection.x, qglCameraDirection.y, qglCameraDirection.z);
+      cg3::Vec3d cameraUp(qglCameraUp.x, qglCameraUp.y, qglCameraUp.z);
       GLfloat projectionMatrix[16];
       GLfloat viewMatrix[16];
       camera()->getProjectionMatrix(projectionMatrix);
@@ -294,6 +298,7 @@ void GlCanvas::mousePressEvent(QMouseEvent* e)
                           e->y(),
                           cameraPosition,
                           cameraDirection,
+                          cameraUp,
                           sceneCenter,
                           projectionMatrix,
                           viewMatrix,
@@ -433,6 +438,18 @@ void GlCanvas::keyPressEvent(QKeyEvent *e)
       case Qt::Key_4:
          setInteractionMode(DEFORM_INTERACTION);
          break;
+      case Qt::Key_X:
+         xPivot = !xPivot;
+         yPivot = zPivot = false;
+         break;
+      case Qt::Key_Y:
+         yPivot = !yPivot;
+         xPivot = zPivot = false;
+         break;
+      case Qt::Key_Z:
+         zPivot = !zPivot;
+         xPivot = yPivot = false;
+         break;
       default:
          QGLViewer::keyPressEvent(e);
    }
@@ -506,7 +523,7 @@ bool GlCanvas::computeCenterOfRotation()
 void GlCanvas::computePickableObjectsTranslation()
 {
    cg3::Vec3d delta;
-   clickConverter.getTranslation(delta);
+   clickConverter.getTranslation(delta, xPivot, yPivot, zPivot);
 
    for(unsigned long i=0; i<pickableObjects.size(); ++i)
    {
@@ -517,7 +534,7 @@ void GlCanvas::computePickableObjectsTranslation()
 void GlCanvas::computePickableObjectsRotation()
 {
    cg3::dQuaternion rotation;
-   clickConverter.getRotation(rotation, rotationAxis, sceneRadius);  //TODO: Riscrivi per cg3::Transform
+   clickConverter.getRotation(rotation, rotationAxis, sceneRadius, xPivot, yPivot, zPivot);  //TODO: Riscrivi per cg3::Transform
 
    for(unsigned long i=0; i<pickableObjects.size(); ++i)
    {

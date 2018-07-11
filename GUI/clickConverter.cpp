@@ -2,6 +2,7 @@
 
 #include "glm/glm.hpp"
 #include <glm/gtc/type_ptr.hpp>
+#include "math/frame.h"
 
 ClickConverter::ClickConverter()
 {
@@ -12,6 +13,7 @@ void ClickConverter::init(const int mouseX,
                           const int mouseY,
                           const cg3::Point3d & cameraPosition,
                           const cg3::Vec3d & cameraDirection,
+                          const cg3::Vec3d & cameraUp,
                           const cg3::Point3d & sceneCenter,
                           const float projectionMatrix[],
                           const float viewMatrix[],
@@ -24,6 +26,7 @@ void ClickConverter::init(const int mouseX,
    _actualMouseY = mouseY;
    _cameraPosition = cameraPosition;
    _cameraDirection = cameraDirection;
+   _cameraUp = cameraUp;
 
    for(int i=0; i<16; ++i)
    {
@@ -48,7 +51,7 @@ void ClickConverter::updateMouseMovement(const int mouseX, const int mouseY)
    generateRay(mouseX, mouseY, actualClickRay);
 }
 
-void ClickConverter::getTranslation(cg3::Vec3d & translation)
+void ClickConverter::getTranslation(cg3::Vec3d & translation, bool xPivot, bool yPivot, bool zPivot)
 {
    cg3::Vec3d vPreviousRay = previousClickRay.getPointOnRay(50.0);
    cg3::Vec3d vActualRay = actualClickRay.getPointOnRay(50.0);
@@ -61,6 +64,20 @@ void ClickConverter::getTranslation(cg3::Vec3d & translation)
 
    translation = p2-p1;
 
+   if(xPivot || yPivot || zPivot)
+   {
+
+      cg3::Frame frame(_cameraDirection, _cameraUp, _cameraDirection.cross(_cameraUp), _cameraPosition);
+      cg3::Vec3d localTranslation = frame.GlobalToLocal(translation);
+
+      if(zPivot) localTranslation[1] = localTranslation [2] = 0.0;
+      if(yPivot) localTranslation[0] = localTranslation [2] = 0.0;
+      if(xPivot) localTranslation[0] = localTranslation [1] = 0.0;
+
+      translation = frame.LocalToGlobal(localTranslation);
+
+   }
+
    _previousMouseX = _actualMouseX;
    _previousMouseY = _actualMouseY;
    previousClickRay = actualClickRay;
@@ -68,7 +85,10 @@ void ClickConverter::getTranslation(cg3::Vec3d & translation)
 
 void ClickConverter::getRotation(cg3::dQuaternion & rotation,
                                  cg3::Vec3d & rotationAxis,
-                                 const double scaleFactor)
+                                 const double scaleFactor,
+                                 bool xPivot,
+                                 bool yPivot,
+                                 bool zPivot)
 {
    cg3::Vec3d vPreviousRay = previousClickRay.getPointOnRay(50.0);
    cg3::Vec3d vActualRay = actualClickRay.getPointOnRay(50.0);
@@ -83,6 +103,20 @@ void ClickConverter::getRotation(cg3::dQuaternion & rotation,
 
    //Utilities for rotations
    rotationAxis = delta.cross(midPlane.normal());
+
+   if(xPivot || yPivot || zPivot)
+   {
+
+      cg3::Frame frame(_cameraDirection, _cameraUp, _cameraDirection.cross(_cameraUp), _cameraPosition);
+      cg3::Vec3d localRotatioAxis = frame.GlobalToLocal(rotationAxis);
+
+      if(zPivot) localRotatioAxis[1] = localRotatioAxis [2] = 0.0;
+      if(yPivot) localRotatioAxis[0] = localRotatioAxis [2] = 0.0;
+      if(xPivot) localRotatioAxis[0] = localRotatioAxis [1] = 0.0;
+
+      rotationAxis = frame.LocalToGlobal(localRotatioAxis);
+
+   }
 
    /*//TODO: find a better and more precise way to compute the rotation angle
    double clicksDistance = std::sqrt(((_previousMouseX - _actualMouseX)  *

@@ -31,6 +31,10 @@ private slots:
 
    void on_interDeform_clicked();
 
+   void on_NextKey_clicked();
+
+   void on_SaveKey_clicked();
+
 private:
    Ui::ToolsPanel *ui;
 };

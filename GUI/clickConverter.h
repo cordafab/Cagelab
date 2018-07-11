@@ -13,17 +13,17 @@ public:
    void init(const int mouseX,
              const int mouseY,
              const cg3::Point3d & cameraPosition,
-             const cg3::Vec3d & cameraDirection,
+             const cg3::Vec3d & cameraDirection, const cg3::Vec3d &cameraUp,
              const cg3::Point3d & sceneCenter,
              const float projectionMatrix[],
              const float viewMatrix[],
              const int windowsWidth,
              const int windowsHeight);
    void updateMouseMovement(const int mouseX, const int mouseY);
-   void getTranslation(cg3::Vec3d & translation);
+   void getTranslation(cg3::Vec3d & translation, bool xPivot, bool yPivot, bool zPivot);
    void getRotation(cg3::dQuaternion & rotation,
                     cg3::Vec3d & rotationAxis,
-                    const double scaleFactor);
+                    const double scaleFactor, bool xPivot, bool yPivot, bool zPivot);
    void generateRay(const int mouseX, const int mouseY, cg3::dRay &ray) const;
 
 private:
@@ -33,6 +33,7 @@ private:
    int _actualMouseY;
    cg3::Vec3d _cameraPosition;
    cg3::Vec3d _cameraDirection;
+   cg3::Vec3d _cameraUp;
    float _projectionMatrix[16];
    float _viewMatrix[16];
    int _windowsWidth;

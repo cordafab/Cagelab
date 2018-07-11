@@ -88,6 +88,11 @@ protected :
    void computePickableObjectsRotation();
    void computePickableObjectsScaling(int direction);
 
+   //Things for axis pivoting
+   bool xPivot;
+   bool yPivot;
+   bool zPivot;
+
    //Utilities for Camera saving
    qglviewer::Vec savedCameraPosition;
    qglviewer::Quaternion savedCameraOrientation;

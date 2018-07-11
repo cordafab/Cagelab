@@ -40,7 +40,7 @@ public:
       restPoseVertices[vIdPtr + 2] = newPosition.z();
    }
 
-   inline void setRestPoseVector(const std::vector<double> _vertices){restPoseVertices = _vertices;}
+   inline void setRestPoseVector(const std::vector<double> & _vertices){restPoseVertices = _vertices;}
 
 
    inline cg3::Vec3<double> getActualPoseVertex(int vId) const
@@ -48,7 +48,15 @@ public:
       return getVertex(vId);
    }
 
-   inline void setActualPoseVector(const std::vector<double> _vertices){setVerticesVector(_vertices);}
+   inline void setActualPoseVector(const std::vector<double> & _vertices){setVerticesVector(_vertices);}
+
+   inline void setKeyframe(const std::vector<double> & keyframe)
+   {
+      for(int i=0; i<vertices.size(); ++i)
+      {
+         vertices[i] = restPoseVertices[i] + keyframe[i];
+      }
+   }
 
 protected:
 

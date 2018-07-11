@@ -46,7 +46,10 @@ HEADERS = \
     math/quaternion.h \
     geom/ray.h \
     skinning/greenCoordinates.h \
-    skinning/noCageSkinning.h
+    skinning/noCageSkinning.h \
+    math/frame.h \
+    animation/animator.h \
+    common/animatorOperations.h
 
 SOURCES = \
     main.cpp \
@@ -83,7 +86,10 @@ SOURCES = \
     GUI/toolsPanel.cpp \
     common/characterOperations.cpp \
     skinning/greenCoordinates.cpp \
-    skinning/noCageSkinning.cpp
+    skinning/noCageSkinning.cpp \
+    math/frame.cpp \
+    animation/animator.cpp \
+    common/animatorOperations.cpp
 
 FORMS *= \
     GUI/mainWindow.ui \
