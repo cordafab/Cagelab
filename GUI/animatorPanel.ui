@@ -17,8 +17,8 @@
    <widget class="QPushButton" name="IterateKeyframe">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>30</y>
+      <x>10</x>
+      <y>0</y>
       <width>80</width>
       <height>24</height>
      </rect>
@@ -30,8 +30,8 @@
    <widget class="QPushButton" name="addKeyframe">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>40</y>
+      <x>100</x>
+      <y>0</y>
       <width>80</width>
       <height>24</height>
      </rect>
@@ -43,8 +43,8 @@
    <widget class="QPushButton" name="saveAnimation">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>140</y>
+      <x>10</x>
+      <y>60</y>
       <width>181</width>
       <height>24</height>
      </rect>
@@ -56,14 +56,40 @@
    <widget class="QPushButton" name="loadAnimation">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>110</y>
+      <x>10</x>
+      <y>30</y>
       <width>181</width>
       <height>24</height>
      </rect>
     </property>
     <property name="text">
      <string>Load Animation</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="exportCagesKframes">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>181</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Export Cage</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="exportCharKframes">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>181</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Export Character</string>
     </property>
    </widget>
   </widget>

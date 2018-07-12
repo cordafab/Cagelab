@@ -34,3 +34,13 @@ void AnimatorPanel::on_loadAnimation_clicked()
 {
     loadAnimationFromFile();
 }
+
+void AnimatorPanel::on_exportCagesKframes_clicked()
+{
+    exportCageKeyframes();
+}
+
+void AnimatorPanel::on_exportCharKframes_clicked()
+{
+    exportCharacterKeyframes();
+}

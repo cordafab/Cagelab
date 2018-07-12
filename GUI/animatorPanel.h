@@ -24,6 +24,10 @@ private slots:
 
    void on_loadAnimation_clicked();
 
+   void on_exportCagesKframes_clicked();
+
+   void on_exportCharKframes_clicked();
+
 private:
    Ui::AnimatorPanel *ui;
 };

@@ -14,6 +14,11 @@ public:
                       const std::vector<std::vector<double>> & _cageKeyframes );
 
    void addKeyframe(double t, const std::vector<double> & keyframe);
+
+   //iterate
+   inline int getNumberOfKeyframes() const {return keyframeTime.size();}
+   inline void resetIterator(){keyframeIndex = 0;}
+   inline double getActualTimePose() const {return keyframeTime[keyframeIndex];}
    void setNextPose();
 
    const std::vector<double> & getKeyframeTime() const;

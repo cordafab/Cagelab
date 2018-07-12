@@ -5,6 +5,7 @@
 #include "common/importFiles.h"
 #include "common/exportFiles.h"
 #include "drawables/drawableCage.h"
+#include "drawables/drawableCharacter.h"
 #include "skinning/cageSkinning.h"
 #include "GUI/glCanvas.h"
 #include "GUI/mainWindow.h"
@@ -111,6 +112,66 @@ void addKeyframe()
          }
 
          c->animator->addKeyframe(t, offsets);
+      }
+   }
+}
+
+void exportCageKeyframes()
+{
+   std::string filename;
+   Controller * c = Controller::get();
+
+   if (openFileSaveDialog(filename, "Save Cage Keyframes", "3D Meshes (*.obj *.ply)"))
+   {
+      if(c->isAnimatorInitialized)
+      {
+         c->animator->resetIterator();
+         int numOfKframes = c->animator->getNumberOfKeyframes();
+
+         for(int i=0; i<numOfKframes; ++i)
+         {
+            std::string cageKframeFilename = filename;
+            std::string additionalFileInfo = "cageKframe_" +
+                  std::to_string(c->animator->getActualTimePose());
+            cageKframeFilename.insert(cageKframeFilename.size()-4,additionalFileInfo);
+
+            setNextKeyframe();
+
+            std::vector<double> v = c->cage->getVerticesVector();
+            std::vector<int>    f = c->cage->getTrianglesVector();
+
+            saveMesh(cageKframeFilename.c_str(), v, f);
+         }
+      }
+   }
+}
+
+void exportCharacterKeyframes()
+{
+   std::string filename;
+   Controller * c = Controller::get();
+
+   if (openFileSaveDialog(filename, "Save Character Keyframes", "3D Meshes (*.obj *.ply)"))
+   {
+      if(c->isAnimatorInitialized)
+      {
+         c->animator->resetIterator();
+         int numOfKframes = c->animator->getNumberOfKeyframes();
+
+         for(int i=0; i<numOfKframes; ++i)
+         {
+            std::string charKframeFilename = filename;
+            std::string additionalFileInfo = "cageKframe_" +
+                  std::to_string(c->animator->getActualTimePose());
+            charKframeFilename.insert(charKframeFilename.size()-4,additionalFileInfo);
+
+            setNextKeyframe();
+
+            std::vector<double> v = c->character->getVerticesVector();
+            std::vector<int>    f = c->character->getTrianglesVector();
+
+            saveMesh(charKframeFilename.c_str(), v, f);
+         }
       }
    }
 }
