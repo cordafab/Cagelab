@@ -105,3 +105,41 @@ void saveWeights(const char    * filename,
 
    fp.close();
 }
+
+void saveAnimation(const char * filename,
+                   const std::vector<double> & t,
+                   const std::vector<std::vector<double> > & cageKeyframes)
+{
+   ofstream fp;
+   fp.open (filename);
+   fp.precision(6);
+   fp.setf( std::ios::fixed, std::ios::floatfield ); // floatfield set to fixed
+
+   if(!fp)
+   {
+      cerr << "ERROR : " << __FILE__ << ", line " << __LINE__ << " : saveWeights() : couldn't open output file " << filename << endl;
+      exit(-1);
+   }
+
+   for( int i = 0; i < (int) t.size(); ++i )
+   {
+      fp << "k " << t[i] << endl;   //keyframe
+   }
+
+   for( int i = 0; i < (int) t.size(); ++i )
+   {
+      for( int j = 0; j < (int) cageKeyframes[i].size(); j+=3 )
+      {
+
+         fp << "c "  //cage
+            << i << " "
+            << cageKeyframes[i][j+0] << " "
+            << cageKeyframes[i][j+1] << " "
+            << cageKeyframes[i][j+2] << endl;
+      }
+   }
+
+
+
+   fp.close();
+}

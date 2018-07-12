@@ -19,4 +19,8 @@ void savePLY   (const char                * filename,
 void saveWeights  (const char    * filename,
                    const Weights & weights);
 
+void saveAnimation (const char                              * filename,
+                    const std::vector<double>               & t,
+                    const std::vector<std::vector<double> > & cageKeyframes);
+
 #endif // EXPORTFILES_H

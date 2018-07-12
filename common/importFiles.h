@@ -15,4 +15,8 @@ void loadPLY   (const char                * filename,
                std::vector<double>        & vertices,
                std::vector<int>           & faces   );
 
+void loadAnimation(const char                       * filename,
+                   std::vector<double>              & t,
+                   std::vector<std::vector<double>> & cageKeyframes);
+
 #endif // IMPORTFILES_H

@@ -1,13 +1,16 @@
 #include "animatorOperations.h"
 
-
+#include "GUI/qtUtils.h"
 #include "animation/animator.h"
+#include "common/importFiles.h"
+#include "common/exportFiles.h"
 #include "drawables/drawableCage.h"
 #include "skinning/cageSkinning.h"
 #include "GUI/glCanvas.h"
 #include "GUI/mainWindow.h"
 #include "controller.h"
 #include <QInputDialog>
+#include <vector>
 
 
 void initializeAnimator()
@@ -23,6 +26,49 @@ void initializeAnimator()
       //animator->populateKeyframesDebug((c->cage->getNumVertices())*3);
       c->isAnimatorInitialized = true;
 
+   }
+}
+
+
+void loadAnimationFromFile()
+{
+
+   std::string filename;
+   Controller * c = Controller::get();
+
+   if (openFileSelectionDialog(filename, "Load Animation", "Text File (*.txt)"))
+   {
+      if(c->isAnimatorInitialized)
+      {
+
+         std::cout << "Loading animation: " << filename << std::endl;
+
+         std::vector<double> t;
+         std::vector<std::vector<double>> cageKeyframes;
+
+         loadAnimation(filename.c_str(),
+                       t,
+                       cageKeyframes);
+
+         c->animator->loadAnimation(t,cageKeyframes);
+      }
+   }
+}
+
+void saveAnimationToFile()
+{
+
+   std::string filename;
+   Controller * c = Controller::get();
+
+   if (openFileSaveDialog(filename, "Save Animation", "Text File (*.txt)"))
+   {
+      if(c->isAnimatorInitialized)
+      {
+         saveAnimation(filename.c_str(),
+                       c->animator->getKeyframeTime(),
+                       c->animator->getCageKeyframes());
+      }
    }
 }
 
@@ -42,7 +88,6 @@ void setNextKeyframe()
 
       c->glCanvas->refreshScene();
    }
-
 }
 
 void addKeyframe()

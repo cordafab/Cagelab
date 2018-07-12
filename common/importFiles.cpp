@@ -42,8 +42,6 @@ void loadOBJ (const char            * filename,
               std::vector<double>   & vertices,
               std::vector<int>      & faces   )
 {
-   //CODE FROM CAGELAB TO REWRITE AS SOON AS POSSIBLE!!! ONLY FOR TEMPORARY USE
-
    ifstream file(filename);
 
    if (!file.is_open())
@@ -87,7 +85,6 @@ void loadPLY ( const char     * filename,
                vector<double> & vertices,
                vector<int>    & faces)
 {
-   //CODE FROM CAGELAB TO REWRITE AS SOON AS POSSIBLE!!! ONLY FOR TEMPORARY USE
    int vnum, fnum;
 
    ifstream file(filename);
@@ -169,4 +166,52 @@ void loadPLY ( const char     * filename,
       faces.push_back(v2);
       //M.F.row(i) = Vector3i(v0,v1,v2);
    }
+}
+
+void loadAnimation(const char * filename,
+                   std::vector<double> & t,
+                   std::vector<std::vector<double> > & cageKeyframes)
+{
+   ifstream file(filename);
+
+   if (!file.is_open())
+   {
+      cerr << "ERROR : " << __FILE__ << ", line " << __LINE__ << " : load_OBJ() : couldn't open input file " << filename << endl;
+      exit(-1);
+   }
+
+   string line;
+   bool areKeyframeInitialized = false;
+   while (getline(file, line))
+   {
+      istringstream iss(line);
+
+      string token;
+      iss >> token;
+      if (token.size() > 1) continue; // vn,fn  .... I don't care
+
+      if (token[0] == 'k')
+      {
+         double time;
+         iss >> time;
+         t.push_back(time);
+         std::cout << "k: " << time << std::endl;
+      }
+      else if (token[0] == 'c')
+      {
+         if(!areKeyframeInitialized)
+         {
+            cageKeyframes.resize(t.size());
+            areKeyframeInitialized = true;
+         }
+
+         double i, x, y, z;
+         iss >> i >> x >> y >> z;
+         cageKeyframes[i].push_back(x);
+         cageKeyframes[i].push_back(y);
+         cageKeyframes[i].push_back(z);
+         std::cout << "ct " << i << " " << x << " " << y << " " << z << std::endl;
+      }
+   }
+   file.close();
 }
