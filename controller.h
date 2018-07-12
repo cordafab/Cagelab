@@ -17,10 +17,12 @@ class GreenCoordinates;
 
 class Animator;
 
+class MainWindow;
 class GlCanvas;
 class FbxImportPanel;
 class CharacterPanel;
 class CagePanel;
+class AnimatorPanel;
 class ToolsPanel;
 
 //Interaction mode
@@ -62,10 +64,12 @@ public:
    bool                   isAnimatorInitialized;
 
    //GUI
+   MainWindow           * mainWindow;
    GlCanvas             * glCanvas;
    FbxImportPanel       * fbxImportPanel;
    CharacterPanel       * characterPanel;
    CagePanel            * cagePanel;
+   AnimatorPanel        * animatorPanel;
    ToolsPanel           * toolsPanel;
 
    //Interaction

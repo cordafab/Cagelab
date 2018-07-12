@@ -12,17 +12,15 @@ public:
 
    void addKeyframe(double t, const std::vector<double> & keyframe);
    void setNextPose();
-   void populateKeyframesDebug(int nVert);
-
-   double debugCount;
 
 private:
    std::vector<double> keyframeTime;
    std::vector<std::vector<double>> cageKeyframes;
 
    Cage * cage;
-   int keyframeIndex;
+   double lastKeyframeT;
 
+   int keyframeIndex;
 };
 
 #endif // ANIMATOR_H

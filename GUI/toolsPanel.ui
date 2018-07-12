@@ -159,32 +159,6 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QPushButton" name="NextKey">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>520</y>
-      <width>70</width>
-      <height>70</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>NextK</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="SaveKey">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>600</y>
-      <width>70</width>
-      <height>70</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>SaveK</string>
-    </property>
-   </widget>
   </widget>
  </widget>
  <resources/>

@@ -21,10 +21,12 @@ Controller::Controller()
 
 
 
+   mainWindow                       = nullptr;
    glCanvas                         = nullptr;
    fbxImportPanel                   = nullptr;
    characterPanel                   = nullptr;
    cagePanel                        = nullptr;
+   animatorPanel                    = nullptr;
    toolsPanel                       = nullptr;
 
    interactionMode                  = CAMERA_INTERACTION;

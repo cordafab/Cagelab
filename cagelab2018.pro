@@ -49,7 +49,8 @@ HEADERS = \
     skinning/noCageSkinning.h \
     math/frame.h \
     animation/animator.h \
-    common/animatorOperations.h
+    common/animatorOperations.h \
+    GUI/animatorPanel.h
 
 SOURCES = \
     main.cpp \
@@ -89,14 +90,16 @@ SOURCES = \
     skinning/noCageSkinning.cpp \
     math/frame.cpp \
     animation/animator.cpp \
-    common/animatorOperations.cpp
+    common/animatorOperations.cpp \
+    GUI/animatorPanel.cpp
 
 FORMS *= \
     GUI/mainWindow.ui \
     GUI/cagePanel.ui \
     GUI/fbxImportPanel.ui \
     GUI/characterPanel.ui \
-    GUI/toolsPanel.ui
+    GUI/toolsPanel.ui \
+    GUI/animatorPanel.ui
 
 RESOURCES += \
     icons.qrc

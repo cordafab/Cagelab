@@ -5,6 +5,7 @@
 #include "GUI/fbxImportPanel.h"
 #include "GUI/characterPanel.h"
 #include "GUI/cagePanel.h"
+#include "GUI/animatorPanel.h"
 #include "GUI/toolsPanel.h"
 
 #include "GUI/qtUtils.h"
@@ -21,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
    controller->glCanvas = new GlCanvas(ui->centralWidget);
    controller->glCanvas->setObjectName(QStringLiteral("GlCanvas"));
    ui->verticalLayout->addWidget(controller->glCanvas);
+
+   controller->mainWindow = this;
 
    //configure fbxImportPanel
    if(!controller->fbxImportPanel)
@@ -46,6 +49,14 @@ MainWindow::MainWindow(QWidget *parent)
    }
    controller->cagePanel->show();
    addDockWidget(Qt::LeftDockWidgetArea, controller->cagePanel);
+
+   //configure AnimatorPanel
+   if(!controller->animatorPanel)
+   {
+      controller->animatorPanel = new AnimatorPanel(this);
+   }
+   controller->animatorPanel->show();
+   addDockWidget(Qt::LeftDockWidgetArea, controller->animatorPanel);
 
 
    //configure ToolPanel
