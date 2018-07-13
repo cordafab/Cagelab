@@ -67,8 +67,8 @@ void saveAnimationToFile()
       if(c->isAnimatorInitialized)
       {
          saveAnimation(filename.c_str(),
-                       c->animator->getKeyframeTime(),
-                       c->animator->getCageKeyframes());
+                       c->animator->getKeyframeTimeVector(),
+                       c->animator->getCageKeyframesVector());
       }
    }
 }
@@ -79,7 +79,7 @@ void setNextKeyframe()
 
    if(c->isAnimatorInitialized)
    {
-      c->animator->setNextPose();
+      c->animator->setNextKeyframe();
 
       if(c->isCageSkinningInitialized)
       {
@@ -172,6 +172,62 @@ void exportCharacterKeyframes()
 
             saveMesh(charKframeFilename.c_str(), v, f);
          }
+      }
+   }
+}
+
+void setKeyframe(int index)
+{
+   Controller * c = Controller::get();
+
+
+   if(c->isAnimatorInitialized)
+   {
+      c->animator->setKeyframe(index);
+
+      if(c->isCageSkinningInitialized)
+      {
+         c->cageSkinning->deform();
+         c->cage->updateNormals();
+      }
+
+      c->glCanvas->refreshScene();
+   }
+}
+
+void deleteKeyframe(int index)
+{
+   Controller * c = Controller::get();
+
+   if(c->isAnimatorInitialized)
+   {
+      c->animator->deleteKeyframe(index);
+
+      if(c->isCageSkinningInitialized)
+      {
+         c->animator->resetIterator();
+         c->animator->setNextKeyframe();
+         c->cageSkinning->deform();
+         c->cage->updateNormals();
+      }
+
+      c->glCanvas->refreshScene();
+   }
+}
+
+void editKeyframeTime(int index)
+{
+   Controller * c = Controller::get();
+   if(c->isCageSkinningInitialized)
+   {
+
+      bool ok;
+      double actualTime = c->animator->getKeyframeTime(index);
+      double t = QInputDialog::getDouble(c->mainWindow, "Keyframe time (in seconds)",
+                                        "Second: ", actualTime, 0, 2147483647, 1, &ok);
+      if (ok && t>0)
+      {
+         c->animator->editKeyframeTime(index, t);
       }
    }
 }

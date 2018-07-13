@@ -9,5 +9,8 @@ void saveAnimationToFile();
 void exportCageKeyframes();
 void exportCharacterKeyframes();
 void setNextKeyframe();
+void setKeyframe(int index);
 void addKeyframe();
+void deleteKeyframe(int index);
+void editKeyframeTime(int index);
 #endif // ANIMATOROPERATIONS_H

@@ -10,6 +10,18 @@
     <height>240</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>320</width>
+    <height>240</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>320</width>
+    <height>240</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Animator Panel</string>
   </property>
@@ -19,7 +31,7 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>80</width>
+      <width>51</width>
       <height>24</height>
      </rect>
     </property>
@@ -30,9 +42,9 @@
    <widget class="QPushButton" name="addKeyframe">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>70</x>
       <y>0</y>
-      <width>80</width>
+      <width>61</width>
       <height>24</height>
      </rect>
     </property>
@@ -45,7 +57,7 @@
      <rect>
       <x>10</x>
       <y>60</y>
-      <width>181</width>
+      <width>121</width>
       <height>24</height>
      </rect>
     </property>
@@ -58,7 +70,7 @@
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>181</width>
+      <width>121</width>
       <height>24</height>
      </rect>
     </property>
@@ -71,7 +83,7 @@
      <rect>
       <x>10</x>
       <y>90</y>
-      <width>181</width>
+      <width>121</width>
       <height>24</height>
      </rect>
     </property>
@@ -84,12 +96,48 @@
      <rect>
       <x>10</x>
       <y>120</y>
-      <width>181</width>
+      <width>121</width>
       <height>24</height>
      </rect>
     </property>
     <property name="text">
      <string>Export Character</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="keyframeList">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>0</y>
+      <width>171</width>
+      <height>171</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="editTime">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>190</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>editTime</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="deleteKeyframe">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>190</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>delete</string>
     </property>
    </widget>
   </widget>
