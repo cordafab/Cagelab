@@ -8,6 +8,10 @@ FbxImportPanel::FbxImportPanel(QWidget *parent) :
    ui(new Ui::fbxImportPanel)
 {
    ui->setupUi(this);
+
+   ui->load->setIcon(QIcon(QPixmap(":/GUI/icons/fbx.png")));
+   ui->load->setStyleSheet("padding:5px; text-align:left;");
+   ui->load->setIconSize(QSize(18, 18));
 }
 
 FbxImportPanel::~FbxImportPanel()

@@ -8,7 +8,19 @@
     <file>GUI/icons/AselectIconButton.png</file>
     <file>GUI/icons/AdeselectIconButton.png</file>
     <file>GUI/icons/AdeformIconButton.png</file>
-    <file>GUI/icons/openButton.png</file>
-    <file>GUI/icons/saveButton.png</file>
+    <file>GUI/icons/open.png</file>
+    <file>GUI/icons/save.png</file>
+    <file>GUI/icons/lock.png</file>
+    <file>GUI/icons/unlock.png</file>
+    <file>GUI/icons/export.png</file>
+    <file>GUI/icons/add.png</file>
+    <file>GUI/icons/edit.png</file>
+    <file>GUI/icons/clear.png</file>
+    <file>GUI/icons/next.png</file>
+    <file>GUI/icons/colourPick.png</file>
+    <file>GUI/icons/compute.png</file>
+    <file>GUI/icons/fbx.png</file>
+    <file>GUI/icons/camera.png</file>
+    <file>GUI/icons/saveCamera.png</file>
 </qresource>
 </RCC>

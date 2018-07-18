@@ -15,6 +15,21 @@ CharacterPanel::CharacterPanel(QWidget *parent) :
    ui(new Ui::CharacterPanel)
 {
    ui->setupUi(this);
+
+   ui->load->setIcon(QIcon(QPixmap(":/GUI/icons/open.png")));
+   ui->load->setStyleSheet("padding:5px; text-align:left;");
+   ui->load->setIconSize(QSize(18, 18));
+
+   ui->save->setIcon(QIcon(QPixmap(":/GUI/icons/save.png")));
+   ui->save->setStyleSheet("padding:5px; text-align:left;");
+   ui->save->setIconSize(QSize(18, 18));
+
+   ui->changeColour->setIcon(QIcon(QPixmap(":/GUI/icons/colourPick.png")));
+   ui->changeColour->setStyleSheet("padding:5px; text-align:left;");
+   ui->changeColour->setIconSize(QSize(18, 18));
+
+
+
 }
 
 CharacterPanel::~CharacterPanel()

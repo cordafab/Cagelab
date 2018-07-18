@@ -21,7 +21,7 @@ public:
 private slots:
    void on_addKeyframe_clicked();
 
-   void on_IterateKeyframe_clicked();
+   void on_nextKeyframe_clicked();
 
    void on_saveAnimation_clicked();
 

@@ -11,6 +11,14 @@ ToolsPanel::ToolsPanel(QWidget *parent) :
    ui(new Ui::ToolsPanel)
 {
    ui->setupUi(this);
+
+   ui->saveCamera->setIcon(QIcon(QPixmap(":/GUI/icons/saveCamera.png")));
+   ui->saveCamera->setIconSize(QSize(18, 18));
+   ui->saveCamera->setStyleSheet("padding:5px; text-align:left;");
+
+   ui->restoreCamera->setIcon(QIcon(QPixmap(":/GUI/icons/camera.png")));
+   ui->restoreCamera->setIconSize(QSize(18, 18));
+   ui->restoreCamera->setStyleSheet("padding:5px; text-align:left;");
 }
 
 ToolsPanel::~ToolsPanel()
@@ -24,11 +32,17 @@ void ToolsPanel::updateCageDeformationButton()
 
    if(c->isCageDeformerActive)
    {
-      ui->cageDeformation->setText("CageON");
+      ui->cageDeformation->setIcon(QIcon(QPixmap(":/GUI/icons/lock.png")));
+      ui->cageDeformation->setIconSize(QSize(18, 18));
+      ui->cageDeformation->setStyleSheet("padding:5px; text-align:left;");
+      ui->cageDeformation->setText("Cage");
    }
    else
    {
-      ui->cageDeformation->setText("CageOFF");
+      ui->cageDeformation->setIcon(QIcon(QPixmap(":/GUI/icons/unlock.png")));
+      ui->cageDeformation->setIconSize(QSize(18, 18));
+      ui->cageDeformation->setStyleSheet("padding:5px; text-align:left;");
+      ui->cageDeformation->setText("Cage");
    }
 }
 
@@ -50,6 +64,7 @@ void ToolsPanel::updateInteractionModeButtons()
 
    ui->interDeform->setIcon(QIcon(QPixmap(":/GUI/icons/deformIconButton.png")));
    ui->interDeform->setIconSize(QSize(48, 48));
+
    switch(c->interactionMode)
    {
       case CAMERA_INTERACTION:

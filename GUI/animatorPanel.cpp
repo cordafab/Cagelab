@@ -10,6 +10,35 @@ AnimatorPanel::AnimatorPanel(QWidget *parent) :
    ui(new Ui::AnimatorPanel)
 {
    ui->setupUi(this);
+
+   ui->loadAnimation->setIcon(QIcon(QPixmap(":/GUI/icons/open.png")));
+   ui->loadAnimation->setStyleSheet("padding:5px; text-align:left;");
+   ui->loadAnimation->setIconSize(QSize(18, 18));
+
+   ui->saveAnimation->setIcon(QIcon(QPixmap(":/GUI/icons/save.png")));
+   ui->saveAnimation->setStyleSheet("padding:5px; text-align:left;");
+   ui->saveAnimation->setIconSize(QSize(18, 18));
+
+   ui->exportCharKframes->setIcon(QIcon(QPixmap(":/GUI/icons/export.png")));
+   ui->exportCharKframes->setStyleSheet("padding:5px; text-align:left;");
+   ui->exportCharKframes->setIconSize(QSize(18, 18));
+
+   ui->exportCagesKframes->setIcon(QIcon(QPixmap(":/GUI/icons/export.png")));
+   ui->exportCagesKframes->setStyleSheet("padding:5px; text-align:left;");
+   ui->exportCagesKframes->setIconSize(QSize(18, 18));
+
+   ui->addKeyframe->setIcon(QIcon(QPixmap(":/GUI/icons/add.png")));
+   ui->addKeyframe->setIconSize(QSize(18, 18));
+
+   ui->deleteKeyframe->setIcon(QIcon(QPixmap(":/GUI/icons/clear.png")));
+   ui->deleteKeyframe->setIconSize(QSize(18, 18));
+
+   ui->editTime->setIcon(QIcon(QPixmap(":/GUI/icons/edit.png")));
+   ui->editTime->setIconSize(QSize(18, 18));
+
+   ui->nextKeyframe->setIcon(QIcon(QPixmap(":/GUI/icons/next.png")));
+   ui->nextKeyframe->setIconSize(QSize(18, 18));
+
 }
 
 AnimatorPanel::~AnimatorPanel()
@@ -35,7 +64,7 @@ void AnimatorPanel::on_addKeyframe_clicked()
     updateKeyframeList();
 }
 
-void AnimatorPanel::on_IterateKeyframe_clicked()
+void AnimatorPanel::on_nextKeyframe_clicked()
 {
     setNextKeyframe();
 }

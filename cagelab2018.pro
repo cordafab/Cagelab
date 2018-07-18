@@ -146,3 +146,5 @@ macx: INCLUDEPATH += /libs/include/eigen
 macx: INCLUDEPATH += /libs/include/glm
 
 ## End glm configurations
+
+#Icons are partially self-created, partially from https://material.io/tools/icons/

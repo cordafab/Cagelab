@@ -21,6 +21,23 @@ CagePanel::CagePanel(QWidget *parent) :
    ui(new Ui::CagePanel)
 {
    ui->setupUi(this);
+
+   ui->load->setIcon(QIcon(QPixmap(":/GUI/icons/open.png")));
+   ui->load->setStyleSheet("padding:5px; text-align:left;");
+   ui->load->setIconSize(QSize(18, 18));
+
+   ui->save->setIcon(QIcon(QPixmap(":/GUI/icons/save.png")));
+   ui->save->setStyleSheet("padding:5px; text-align:left;");
+   ui->save->setIconSize(QSize(18, 18));
+
+   ui->weightsExport->setIcon(QIcon(QPixmap(":/GUI/icons/save.png")));
+   ui->weightsExport->setStyleSheet("padding:5px; text-align:left;");
+   ui->weightsExport->setIconSize(QSize(18, 18));
+
+   ui->computeWeights->setIcon(QIcon(QPixmap(":/GUI/icons/compute.png")));
+   ui->computeWeights->setStyleSheet("padding:5px; text-align:left;");
+   ui->computeWeights->setIconSize(QSize(18, 18));
+
 }
 
 CagePanel::~CagePanel()
