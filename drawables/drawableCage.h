@@ -58,10 +58,15 @@ public:
       { return isVertexSelected; }
 
    void activateCageRendering(bool activate);
+
+   void changeCageSphereSize(double val);
+
 protected:
 
    int drawMode;
    bool _refreshCharacterPose;
+   double sphereSize;
+   double sphereSizeScaleFactor;
 
    //technical stuff for picking
    PickerController* pickerController;

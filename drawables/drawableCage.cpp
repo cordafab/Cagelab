@@ -53,6 +53,9 @@ void DrawableCage::init()
       pickableIndex2Vertex[pickableIndex] = i;
       vertex2PickableIndex[i] = pickableIndex;
    }
+
+   sphereSize = boundingBox.diagonal()/200.0;
+   sphereSizeScaleFactor = 0.0;
 }
 
 void DrawableCage::clear()
@@ -82,7 +85,7 @@ void DrawableCage::draw() const
          glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
       }
 
-      double radius = boundingBox.diagonal()/200.0;
+
       //double radius = boundingBox.diagonal()/150.0;
 
       if(drawMode & DRAW_VERTICES)
@@ -90,9 +93,13 @@ void DrawableCage::draw() const
          for(int i=0; i<getNumVertices(); ++i)
          {
             if (isVertexSelected[i])
-               drawSphere(getVertex(i), radius, 0.905, 0.305, 0.305);
+               drawSphere(getVertex(i),
+                          sphereSize + sphereSize * sphereSizeScaleFactor,
+                          0.905, 0.305, 0.305);
             else
-               drawSphere(getVertex(i), radius, 0.5, 0.5, 0.5);
+               drawSphere(getVertex(i),
+                          sphereSize + sphereSize * sphereSizeScaleFactor,
+                          0.5, 0.5, 0.5);
                //drawSphere(getVertex(i), radius, 0.99, 0.85, 0.39);
          }
       }
@@ -136,7 +143,9 @@ void DrawableCage::drawWithNames()
       {
          glPushMatrix();
          glPushName(vertex2PickableIndex[i]);
-         drawSphere(getVertex(i), radius, 0.0, 0.0, 1.0);
+         drawSphere(getVertex(i),
+                    sphereSize + sphereSize * sphereSizeScaleFactor,
+                    0.0, 0.0, 1.0);
          glPopName();
          glPopMatrix();
       }
@@ -293,4 +302,9 @@ void DrawableCage::activateCageRendering(bool activate)
 {
    if (activate)  drawMode |=  DRAW_CAGE;
    else           drawMode &= ~DRAW_CAGE;
+}
+
+void DrawableCage::changeCageSphereSize(double val)
+{
+   sphereSizeScaleFactor = val;
 }

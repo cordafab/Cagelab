@@ -93,3 +93,14 @@ void CagePanel::on_greenCoordinates_toggled(bool checked)
       c->glCanvas->updateGL();
    }
 }
+
+void CagePanel::on_sphereSize_sliderMoved(int position)
+{
+   Controller * c = Controller::get();
+   if(c->isCageLoaded)
+   {
+      double val = (double) position / 100.0;
+      c->cage->changeCageSphereSize(val);
+      c->glCanvas->updateGL();
+   }
+}

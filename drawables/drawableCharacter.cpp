@@ -32,6 +32,7 @@ void DrawableCharacter::init()
    drawMode       = DRAW_TRIMESH | DRAW_SMOOTH;
 
    texture_id = 0;
+   colour = cg3::Vec3d(1.0,1.0,1.0);
 }
 
 void DrawableCharacter::clear()
@@ -51,9 +52,19 @@ void DrawableCharacter::draw() const
          glVertexPointer(3, GL_DOUBLE, 0, vertices.data());
          glEnableClientState(GL_NORMAL_ARRAY);
          glNormalPointer(GL_DOUBLE, 0, verticesNorm.data());
-         glColor3f(0.9,0.9,0.9);
-         //glColor3f(0.53,0.60,0.85);
-         glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
+         if (drawMode & DRAW_TEXTURE1D)
+         {
+            glEnable(GL_TEXTURE_1D);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glTexCoordPointer(1, GL_FLOAT, 0, textureScalars.data());
+            glColor3f(1.0,1.0,1.0);
+            glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+            glDisable(GL_TEXTURE_1D);
+         } else {
+            glColor3f(colour.x(), colour.y(), colour.z());
+            glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
+         }
          glDisableClientState(GL_NORMAL_ARRAY);
          glDisableClientState(GL_VERTEX_ARRAY);
       } else
@@ -65,8 +76,19 @@ void DrawableCharacter::draw() const
          glVertexPointer(3, GL_DOUBLE, 0, vertices.data());
          glEnableClientState(GL_NORMAL_ARRAY);
          glNormalPointer(GL_DOUBLE, 0, verticesNorm.data());
-         glColor3f(1.0,1.0,1.0);
-         glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
+         if (drawMode & DRAW_TEXTURE1D)
+         {
+            glEnable(GL_TEXTURE_1D);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glTexCoordPointer(1, GL_FLOAT, 0, textureScalars.data());
+            glColor3f(1.0,1.0,1.0);
+            glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+            glDisable(GL_TEXTURE_1D);
+         } else {
+            glColor3f(colour.x(), colour.y(), colour.z());
+            glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
+         }
          glDisableClientState(GL_NORMAL_ARRAY);
          glDisableClientState(GL_VERTEX_ARRAY);
       } else
@@ -79,28 +101,21 @@ void DrawableCharacter::draw() const
          glDepthRange(0.0, 1.0);
          glEnableClientState(GL_VERTEX_ARRAY);
          glVertexPointer(3, GL_DOUBLE, 0, vertices.data());
-         glColor4f(0.8,0.8,0.8,0.5);
-         glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
+         if (drawMode & DRAW_TEXTURE1D)
+         {
+            glEnable(GL_TEXTURE_1D);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glTexCoordPointer(1, GL_FLOAT, 0, textureScalars.data());
+            glColor3f(1.0,1.0,1.0);
+            glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+            glDisable(GL_TEXTURE_1D);
+         } else {
+            glColor4f(0.8,0.8,0.8,0.5);
+            glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
+         }
          glDisableClientState(GL_VERTEX_ARRAY);
          glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-      } else
-      if (drawMode & DRAW_TEXTURE1D)
-      {
-         glEnable(GL_LIGHTING);
-         glShadeModel(GL_SMOOTH);
-         glEnableClientState(GL_VERTEX_ARRAY);
-         glVertexPointer(3, GL_DOUBLE, 0, vertices.data());
-         glEnableClientState(GL_NORMAL_ARRAY);
-         glNormalPointer(GL_DOUBLE, 0, verticesNorm.data());
-         glEnable(GL_TEXTURE_1D);
-         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-         glTexCoordPointer(1, GL_FLOAT, 0, textureScalars.data());
-         glColor3f(1.0,1.0,1.0);
-         glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
-         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-         glDisable(GL_TEXTURE_1D);
-         glDisableClientState(GL_NORMAL_ARRAY);
-         glDisableClientState(GL_VERTEX_ARRAY);
       }
    }
 }
@@ -117,9 +132,19 @@ void DrawableCharacter::drawRest() const
          glVertexPointer(3, GL_DOUBLE, 0, restPoseVertices.data());
          glEnableClientState(GL_NORMAL_ARRAY);
          glNormalPointer(GL_DOUBLE, 0, verticesNorm.data());
-         glColor3f(0.9,0.9,0.9);
-         //glColor3f(0.53,0.60,0.85);
-         glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
+         if (drawMode & DRAW_TEXTURE1D)
+         {
+            glEnable(GL_TEXTURE_1D);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glTexCoordPointer(1, GL_FLOAT, 0, textureScalars.data());
+            glColor3f(1.0,1.0,1.0);
+            glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+            glDisable(GL_TEXTURE_1D);
+         } else {
+            glColor3f(colour.x(), colour.y(), colour.z());
+            glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
+         }
          glDisableClientState(GL_NORMAL_ARRAY);
          glDisableClientState(GL_VERTEX_ARRAY);
       } else
@@ -131,8 +156,19 @@ void DrawableCharacter::drawRest() const
          glVertexPointer(3, GL_DOUBLE, 0, restPoseVertices.data());
          glEnableClientState(GL_NORMAL_ARRAY);
          glNormalPointer(GL_DOUBLE, 0, verticesNorm.data());
-         glColor3f(1.0,1.0,1.0);
-         glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
+         if (drawMode & DRAW_TEXTURE1D)
+         {
+            glEnable(GL_TEXTURE_1D);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glTexCoordPointer(1, GL_FLOAT, 0, textureScalars.data());
+            glColor3f(colour.x(), colour.y(), colour.z());
+            glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+            glDisable(GL_TEXTURE_1D);
+         } else {
+            glColor3f(1.0,1.0,1.0);
+            glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
+         }
          glDisableClientState(GL_NORMAL_ARRAY);
          glDisableClientState(GL_VERTEX_ARRAY);
       } else
@@ -145,28 +181,21 @@ void DrawableCharacter::drawRest() const
          glDepthRange(0.0, 1.0);
          glEnableClientState(GL_VERTEX_ARRAY);
          glVertexPointer(3, GL_DOUBLE, 0, restPoseVertices.data());
-         glColor4f(0.8,0.8,0.8,0.5);
-         glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
+         if (drawMode & DRAW_TEXTURE1D)
+         {
+            glEnable(GL_TEXTURE_1D);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glTexCoordPointer(1, GL_FLOAT, 0, textureScalars.data());
+            glColor3f(1.0,1.0,1.0);
+            glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+            glDisable(GL_TEXTURE_1D);
+         } else {
+            glColor4f(0.8,0.8,0.8,0.5);
+            glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
+         }
          glDisableClientState(GL_VERTEX_ARRAY);
          glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-      } else
-      if (drawMode & DRAW_TEXTURE1D)
-      {
-         glEnable(GL_LIGHTING);
-         glShadeModel(GL_SMOOTH);
-         glEnableClientState(GL_VERTEX_ARRAY);
-         glVertexPointer(3, GL_DOUBLE, 0, restPoseVertices.data());
-         glEnableClientState(GL_NORMAL_ARRAY);
-         glNormalPointer(GL_DOUBLE, 0, verticesNorm.data());
-         glEnable(GL_TEXTURE_1D);
-         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-         glTexCoordPointer(1, GL_FLOAT, 0, textureScalars.data());
-         glColor3f(1.0,1.0,1.0);
-         glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
-         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-         glDisable(GL_TEXTURE_1D);
-         glDisableClientState(GL_NORMAL_ARRAY);
-         glDisableClientState(GL_VERTEX_ARRAY);
       }
    }
 }
@@ -194,7 +223,6 @@ void DrawableCharacter::activateSmoothColouration()
    drawMode &= ~DRAW_FLAT;
    drawMode |=  DRAW_SMOOTH;
    drawMode &= ~DRAW_WIREFRAME;
-   drawMode &= ~DRAW_TEXTURE1D;
 }
 
 void DrawableCharacter::activateFlatColouration()
@@ -202,7 +230,6 @@ void DrawableCharacter::activateFlatColouration()
    drawMode |=  DRAW_FLAT;
    drawMode &= ~DRAW_SMOOTH;
    drawMode &= ~DRAW_WIREFRAME;
-   drawMode &= ~DRAW_TEXTURE1D;
 }
 
 void DrawableCharacter::activateWireframe()
@@ -210,15 +237,12 @@ void DrawableCharacter::activateWireframe()
    drawMode &= ~DRAW_FLAT;
    drawMode &= ~DRAW_SMOOTH;
    drawMode |=  DRAW_WIREFRAME;
-   drawMode &= ~DRAW_TEXTURE1D;
 }
 
-void DrawableCharacter::activateTexture1D()
+void DrawableCharacter::activateTexture1D(bool activate)
 {
-   drawMode &= ~DRAW_FLAT;
-   drawMode &= ~DRAW_SMOOTH;
-   drawMode &= ~DRAW_WIREFRAME;
-   drawMode |=  DRAW_TEXTURE1D;
+   if (activate)  drawMode |=  DRAW_TEXTURE1D;
+   else           drawMode &= ~DRAW_TEXTURE1D;
 }
 
 void DrawableCharacter::updateTexture1D(std::vector<float> _textureScalars)
@@ -239,4 +263,9 @@ void DrawableCharacter::updateTexture1D(std::vector<float> _textureScalars)
    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_R,     GL_REPEAT);
    //glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_R,     GL_CLAMP_TO_BORDER);
    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+}
+
+void DrawableCharacter::changeColour(double r, double g, double b)
+{
+   colour = cg3::Vec3d(r,g,b);
 }

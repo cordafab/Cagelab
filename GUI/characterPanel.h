@@ -25,8 +25,9 @@ private slots:
    void on_smoothColourRB_clicked(bool checked);
    void on_flatColourRB_clicked(bool checked);
    void on_wireColourRB_clicked(bool checked);
-   void on_cageColourRB_clicked(bool checked);
    void on_save_clicked(bool checked);
+   void on_renderCageWeightsCB_clicked(bool checked);
+   void on_changeColour_clicked();
 };
 
 #endif // CHARACTERPANEL_H

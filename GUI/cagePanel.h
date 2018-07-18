@@ -27,6 +27,7 @@ private slots:
    void on_noCoordinates_toggled(bool checked);
    void on_mvcCoordinates_toggled(bool checked);
    void on_greenCoordinates_toggled(bool checked);
+   void on_sphereSize_sliderMoved(int position);
 };
 
 #endif // CAGEPANEL_H

@@ -41,14 +41,16 @@ public:
    void activateSmoothColouration();
    void activateFlatColouration();
    void activateWireframe();
-   void activateTexture1D();
 
+   void activateTexture1D(bool activate);
    void updateTexture1D(std::vector<float> _textureScalars);
+
+   void changeColour(double r, double g, double b);
 
 protected:
 
    int drawMode;
-
+   cg3::Vec3d colour;
    unsigned int texture_id;
    std::vector<float> textureScalars;
 

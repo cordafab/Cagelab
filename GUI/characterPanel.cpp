@@ -8,6 +8,8 @@
 #include "common/characterOperations.h"
 #include "common/cageOperations.h"
 
+#include <QColorDialog>
+
 CharacterPanel::CharacterPanel(QWidget *parent) :
    QDockWidget(parent),
    ui(new Ui::CharacterPanel)
@@ -69,7 +71,12 @@ void CharacterPanel::on_wireColourRB_clicked(bool checked)
    }
 }
 
-void CharacterPanel::on_cageColourRB_clicked(bool checked)
+void CharacterPanel::on_save_clicked(bool checked)
+{
+   saveCharacterToFile();
+}
+
+void CharacterPanel::on_renderCageWeightsCB_clicked(bool checked)
 {
    Controller * c = Controller::get();
    if(c->isCharacterLoaded          &&
@@ -77,14 +84,27 @@ void CharacterPanel::on_cageColourRB_clicked(bool checked)
       c->isCageSkinningInitialized  &&
       c->areCageWeightsLoaded         )
    {
-      c->isCageWeightsRenderActive = true;
+      c->isCageWeightsRenderActive = checked;
       updateCageInfluenceTexture();
-      c->character->activateTexture1D();
+      c->character->activateTexture1D(checked);
       c->glCanvas->updateGL();
    }
+
 }
 
-void CharacterPanel::on_save_clicked(bool checked)
+void CharacterPanel::on_changeColour_clicked()
 {
-   saveCharacterToFile();
+
+
+    Controller * c = Controller::get();
+    if(c->isCharacterLoaded)
+    {
+       QColor colour = QColorDialog::getColor(Qt::white, this);
+       c->character->changeColour((double) (colour.red())  /255.0,
+                                  (double) (colour.green())/255.0,
+                                  (double) (colour.blue())/255.0);
+       //c->character->changeColour(0.5, 0.1, 0.3);
+       c->glCanvas->updateGL();
+    }
+
 }
