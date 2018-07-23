@@ -96,10 +96,13 @@ void DrawableCharacter::draw() const
       if (drawMode & DRAW_WIREFRAME)
       {
          glDisable(GL_LIGHTING);
+         //glDisable(GL_DEPTH_TEST);
+         glEnable(GL_POLYGON_OFFSET_LINE);
          glShadeModel(GL_FLAT);
          glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-         glLineWidth(0.1);
-         glDepthRange(0.0, 1.0);
+         glLineWidth(1.0);
+         //glDepthRange(0.0, 1.0);
+         glPolygonOffset(-1.0,1.0);
          glEnableClientState(GL_VERTEX_ARRAY);
          glVertexPointer(3, GL_DOUBLE, 0, restPoseVertices.data());
          if (drawMode & DRAW_TEXTURE1D && drawMode & DRAW_NOCOLOUR)
@@ -112,11 +115,13 @@ void DrawableCharacter::draw() const
             glDisableClientState(GL_TEXTURE_COORD_ARRAY);
             glDisable(GL_TEXTURE_1D);
          } else {
-            glColor4f(0.4,0.4,0.4,0.5);
+            glColor4f(0.5,0.5,0.5,0.6);
             glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
          }
          glDisableClientState(GL_VERTEX_ARRAY);
          glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+         glDisable(GL_POLYGON_OFFSET_LINE);
+         //glEnable(GL_DEPTH_TEST);
       }
    }
 }
