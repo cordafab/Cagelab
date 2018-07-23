@@ -17,7 +17,8 @@ public:
       DRAW_FLAT             = 0x00000004,
       DRAW_SMOOTH           = 0x00000008,
       DRAW_WIREFRAME        = 0x00000010,
-      DRAW_TEXTURE1D        = 0x00000020
+      DRAW_TEXTURE1D        = 0x00000020,
+      DRAW_NOCOLOUR         = 0x00000040
    };
 
    DrawableCharacter();
@@ -40,7 +41,8 @@ public:
 
    void activateSmoothColouration();
    void activateFlatColouration();
-   void activateWireframe();
+   void deactivateColour();
+   void activateWireframe(bool activate);
 
    void activateTexture1D(bool activate);
    void updateTexture1D(std::vector<float> _textureScalars);

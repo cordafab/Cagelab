@@ -75,17 +75,6 @@ void CharacterPanel::on_flatColourRB_clicked(bool checked)
    }
 }
 
-void CharacterPanel::on_wireColourRB_clicked(bool checked)
-{
-   Controller * c = Controller::get();
-   if(c->isCharacterLoaded)
-   {
-      c->isCageWeightsRenderActive = false;
-      c->character->activateWireframe();
-      c->glCanvas->updateGL();
-   }
-}
-
 void CharacterPanel::on_save_clicked(bool checked)
 {
    saveCharacterToFile();
@@ -122,4 +111,26 @@ void CharacterPanel::on_changeColour_clicked()
        c->glCanvas->updateGL();
     }
 
+}
+
+void CharacterPanel::on_noColourRB_clicked()
+{
+   Controller * c = Controller::get();
+   if(c->isCharacterLoaded)
+   {
+      c->character->deactivateColour();
+      std::cout << "NOCOL" << std::endl;
+      c->glCanvas->updateGL();
+   }
+}
+
+void CharacterPanel::on_renderWireframeCB_clicked(bool checked)
+{
+   Controller * c = Controller::get();
+   if(c->isCharacterLoaded)
+   {
+      c->character->activateWireframe(checked);
+      std::cout << "WIRE" << std::endl;
+      c->glCanvas->updateGL();
+   }
 }

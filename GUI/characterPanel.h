@@ -24,10 +24,11 @@ private slots:
    void on_drawTrimeshCB_clicked(bool checked);
    void on_smoothColourRB_clicked(bool checked);
    void on_flatColourRB_clicked(bool checked);
-   void on_wireColourRB_clicked(bool checked);
    void on_save_clicked(bool checked);
    void on_renderCageWeightsCB_clicked(bool checked);
    void on_changeColour_clicked();
+   void on_noColourRB_clicked();
+   void on_renderWireframeCB_clicked(bool checked);
 };
 
 #endif // CHARACTERPANEL_H

@@ -91,7 +91,8 @@ void DrawableCharacter::draw() const
          }
          glDisableClientState(GL_NORMAL_ARRAY);
          glDisableClientState(GL_VERTEX_ARRAY);
-      } else
+      }
+
       if (drawMode & DRAW_WIREFRAME)
       {
          glDisable(GL_LIGHTING);
@@ -100,8 +101,8 @@ void DrawableCharacter::draw() const
          glLineWidth(0.1);
          glDepthRange(0.0, 1.0);
          glEnableClientState(GL_VERTEX_ARRAY);
-         glVertexPointer(3, GL_DOUBLE, 0, vertices.data());
-         if (drawMode & DRAW_TEXTURE1D)
+         glVertexPointer(3, GL_DOUBLE, 0, restPoseVertices.data());
+         if (drawMode & DRAW_TEXTURE1D && drawMode & DRAW_NOCOLOUR)
          {
             glEnable(GL_TEXTURE_1D);
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -111,7 +112,7 @@ void DrawableCharacter::draw() const
             glDisableClientState(GL_TEXTURE_COORD_ARRAY);
             glDisable(GL_TEXTURE_1D);
          } else {
-            glColor4f(0.8,0.8,0.8,0.5);
+            glColor4f(0.4,0.4,0.4,0.5);
             glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
          }
          glDisableClientState(GL_VERTEX_ARRAY);
@@ -171,7 +172,8 @@ void DrawableCharacter::drawRest() const
          }
          glDisableClientState(GL_NORMAL_ARRAY);
          glDisableClientState(GL_VERTEX_ARRAY);
-      } else
+      }
+
       if (drawMode & DRAW_WIREFRAME)
       {
          glDisable(GL_LIGHTING);
@@ -181,7 +183,7 @@ void DrawableCharacter::drawRest() const
          glDepthRange(0.0, 1.0);
          glEnableClientState(GL_VERTEX_ARRAY);
          glVertexPointer(3, GL_DOUBLE, 0, restPoseVertices.data());
-         if (drawMode & DRAW_TEXTURE1D)
+         if (drawMode & DRAW_TEXTURE1D & DRAW_NOCOLOUR)
          {
             glEnable(GL_TEXTURE_1D);
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -222,21 +224,27 @@ void DrawableCharacter::activateSmoothColouration()
 {
    drawMode &= ~DRAW_FLAT;
    drawMode |=  DRAW_SMOOTH;
-   drawMode &= ~DRAW_WIREFRAME;
+   drawMode &= ~DRAW_NOCOLOUR;
 }
 
 void DrawableCharacter::activateFlatColouration()
 {
    drawMode |=  DRAW_FLAT;
    drawMode &= ~DRAW_SMOOTH;
-   drawMode &= ~DRAW_WIREFRAME;
+   drawMode &= ~DRAW_NOCOLOUR;
 }
 
-void DrawableCharacter::activateWireframe()
+void DrawableCharacter::deactivateColour()
 {
    drawMode &= ~DRAW_FLAT;
    drawMode &= ~DRAW_SMOOTH;
-   drawMode |=  DRAW_WIREFRAME;
+   drawMode |=  DRAW_NOCOLOUR;
+}
+
+void DrawableCharacter::activateWireframe(bool activate)
+{
+   if (activate)  drawMode |=  DRAW_WIREFRAME;
+   else           drawMode &= ~DRAW_WIREFRAME;
 }
 
 void DrawableCharacter::activateTexture1D(bool activate)
