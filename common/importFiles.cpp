@@ -29,7 +29,7 @@ void loadMesh    (const char            * filename,
    if ( filetype.compare("off") == 0 ||
         filetype.compare("OFF") == 0   )
    {
-      //loadOFF(filename, vertices, faces);
+      loadOFF(filename, vertices, faces);
    }
    else
    {
@@ -214,4 +214,56 @@ void loadAnimation(const char * filename,
       }
    }
    file.close();
+}
+
+void loadOFF(const char            * filename,
+             std::vector<double>   & vertices,
+             std::vector<int>      & faces   )
+{
+    setlocale(LC_NUMERIC, "en_US.UTF-8"); // makes sure "." is the decimal separator
+
+    FILE *fp = fopen(filename, "r");
+
+    if(!fp)
+    {
+        std::cerr << "ERROR : " << __FILE__ << ", line " << __LINE__ << " : read_OFF() : couldn't open input file " << filename << endl;
+        exit(-1);
+    }
+
+    int nv, npoly, dummy;
+
+    fscanf(fp, "OFF\n");
+    fscanf(fp, "%d %d %d\n", &nv, &npoly, &dummy);
+
+    for(int i=0; i<nv; ++i)
+    {
+        // http://stackoverflow.com/questions/16839658/printf-width-specifier-to-maintain-precision-of-floating-point-value
+        //
+        double x, y, z;
+        fscanf(fp, "%lf %lf %lf\n", &x, &y, &z);
+        vertices.push_back(x);
+        vertices.push_back(y);
+        vertices.push_back(z);
+    }
+
+    for(int i=0; i<npoly; ++i)
+    {
+        int n_corners, v0, v1, v2, v3;
+        fscanf(fp, "%d", &n_corners);
+
+        if (n_corners == 3)
+        {
+            fscanf(fp, "%d %d %d\n", &v0, &v1, &v2);
+            faces.push_back(v0);
+            faces.push_back(v1);
+            faces.push_back(v2);
+        }
+        else
+        {
+            std::cout << "read_OFF: polygons with " << n_corners << " corners are not supported!" << std::endl;
+            return;
+        }
+    }
+
+    fclose(fp);
 }

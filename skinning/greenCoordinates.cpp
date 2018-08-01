@@ -232,7 +232,7 @@ bool GreenCoordinates::generateCoords()
 
 
          //I = |s1 I1 + s2 I2 + s3 I3 |
-         double I_t = -abs(mysign1*myInt1 + mysign2*myInt2 + mysign3*myInt3);
+         double I_t = -std::abs(mysign1*myInt1 + mysign2*myInt2 + mysign3*myInt3);
 
 
          //ψj(η)
