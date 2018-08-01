@@ -54,7 +54,7 @@ void DrawableCage::init()
       vertex2PickableIndex[i] = pickableIndex;
    }
 
-   sphereSize = boundingBox.diagonal()/200.0;
+   sphereSize = boundingBox.diagonal()*0.005;
    sphereSizeScaleFactor = 0.0;
 }
 
@@ -99,7 +99,7 @@ void DrawableCage::draw() const
             else
                drawSphere(getVertex(i),
                           sphereSize + sphereSize * sphereSizeScaleFactor,
-                          0.5, 0.5, 0.5);
+                          0.305, 0.305, 0.905);
                //drawSphere(getVertex(i), radius, 0.99, 0.85, 0.39);
          }
       }
