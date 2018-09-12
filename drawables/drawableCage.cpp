@@ -77,8 +77,8 @@ void DrawableCage::draw() const
 
          //glLineWidth(3.0);
          //glColor3f(0.99, 0.85, 0.39);
-         glLineWidth(0.2);
-         glColor4f(0,0,0,0.1);
+         glLineWidth(2);
+         glColor4f(0,0,0,0.8);
          glDrawElements(GL_TRIANGLES, tris.size(), GL_UNSIGNED_INT, tris.data());
 
          glDisableClientState(GL_VERTEX_ARRAY);
