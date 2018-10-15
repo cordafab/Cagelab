@@ -58,6 +58,7 @@ public:
       }
    }
 
+   void interpolateKeyframes(const std::vector<double> &keyframeLow, const std::vector<double> &keyframeTop, double a);
 protected:
 
    std::vector<double> restPoseVertices;

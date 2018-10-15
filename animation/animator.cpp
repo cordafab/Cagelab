@@ -3,7 +3,7 @@
 Animator::Animator(Cage * _cage)
 {
    cage = _cage;
-   keyframeIndex = 0;
+   keyframeIndex = -1;
 }
 
 void Animator::loadAnimation(const std::vector<double> & _t,
@@ -82,4 +82,29 @@ const std::vector<double> & Animator::getKeyframeTimeVector() const
 const std::vector<std::vector<double> > & Animator::getCageKeyframesVector() const
 {
    return cageKeyframes;
+}
+
+void Animator::setFrame(double t)
+{
+   while((keyframeIndex<keyframeTime.size()) && (keyframeTime[keyframeIndex]<t)) {keyframeIndex++;}
+
+   if(keyframeIndex==keyframeTime.size()) {
+      cage->setKeyframe(cageKeyframes[keyframeIndex-1]);
+   } else if (keyframeIndex==0) {
+      cage->setKeyframe(cageKeyframes[0]);
+   } else {
+      double low = keyframeTime[keyframeIndex-1];
+      double top = keyframeTime[keyframeIndex];
+      double a = (t-low) / (top - low);
+      cage->interpolateKeyframes(cageKeyframes[keyframeIndex-1], cageKeyframes[keyframeIndex], a);
+   }
+
+}
+
+void Animator::updateFrame()
+{
+   if(keyframeIndex == -1) { t.start(); keyframeIndex = 0;}
+   if(keyframeIndex == keyframeTime.size()) {t.restart(); keyframeIndex = 0;}
+
+   setFrame(((double)t.elapsed())/1000.0);
 }

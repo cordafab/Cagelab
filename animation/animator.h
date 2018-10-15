@@ -4,6 +4,8 @@
 #include <vector>
 #include "geom/cage.h"
 
+#include <QTime>
+
 
 class Animator
 {
@@ -24,6 +26,8 @@ public:
    void setKeyframe(int index);
    void deleteKeyframe(int index);
    bool setNextKeyframe();
+   void setFrame(double t);
+   void updateFrame();
 
    const std::vector<double> & getKeyframeTimeVector() const;
    const std::vector<std::vector<double>> & getCageKeyframesVector() const;
@@ -36,6 +40,9 @@ private:
    double lastKeyframeT;
 
    int keyframeIndex;
+
+
+   QTime t;
 };
 
 #endif // ANIMATOR_H

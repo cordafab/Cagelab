@@ -126,8 +126,8 @@ macx: LIBS += -F/Library/Frameworks -framework QGLViewer
 ## LIB FBX configurations
 
 #Mac
-macx: LIBS += -L'/Applications/Autodesk/FBX SDK/2018.0/lib/clang/release/' -lfbxsdk
-macx: INCLUDEPATH +='/Applications/Autodesk/FBX SDK/2018.0/include/'
+macx: LIBS += -L'/Applications/Autodesk/FBX SDK/2018.1.1/lib/clang/release/' -lfbxsdk
+macx: INCLUDEPATH +='/Applications/Autodesk/FBX SDK/2018.1.1/include/'
 
 ## End FBX configurations
 
@@ -135,7 +135,7 @@ macx: INCLUDEPATH +='/Applications/Autodesk/FBX SDK/2018.0/include/'
 ## LIB Eigen configurations
 
 # Mac
-macx: INCLUDEPATH += /libsSTAG/include/eigen
+macx: INCLUDEPATH += /libs/include/eigen
 
 ## End Eigen configurations
 
@@ -143,7 +143,7 @@ macx: INCLUDEPATH += /libsSTAG/include/eigen
 ## LIB glm configurations
 
 # Mac
-macx: INCLUDEPATH += /libsSTAG/include/glm
+macx: INCLUDEPATH += /libs/include/glm
 
 ## End glm configurations
 

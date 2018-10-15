@@ -20,6 +20,7 @@
 #include "geom/plane.h"
 #include "math/quaternion.h"
 #include "QGLviewer/manipulatedCameraFrame.h"
+#include "animation/animator.h"
 
 #include <iostream>
 #include <chrono>
@@ -122,6 +123,12 @@ void GlCanvas::drawWithNames()
    {
       pickableObjects[i]->drawWithNames();
    }
+}
+
+void GlCanvas::animate()
+{
+   controller->animator->updateFrame();
+   controller->cageSkinning->deform();
 }
 
 void GlCanvas::refreshScene()

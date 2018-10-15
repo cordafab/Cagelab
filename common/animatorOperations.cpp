@@ -100,7 +100,7 @@ void addKeyframe()
       bool ok;
       double t = QInputDialog::getDouble(c->mainWindow, "Keyframe time (in seconds)",
                                         "Second: ", 0, 0, 2147483647, 1, &ok);
-      if (ok && t>0)
+      if (ok && t>=0)
       {
 
          const std::vector<double> & restCage = c->cage->getRestPoseVerticesVector();

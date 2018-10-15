@@ -24,6 +24,8 @@ public :
    void draw();
    void drawWithNames();
 
+   void animate();
+
    void pushDrawableObject(const DrawableObject * object);
    void removeDrawableObject(const DrawableObject * object);
 
@@ -38,6 +40,7 @@ public :
    //Utilities for Camera saving
    void saveCamera();
    void restoreCamera();
+
 
 
 protected :
