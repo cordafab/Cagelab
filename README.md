@@ -1,6 +1,6 @@
 # CageLab: an Interactive Tool for Cage-Based Deformations
 ### STAG - Smart Tools and Apps for Graphics 2018 (Brescia, Italy)
-### Sara Casti, Corda Fabrizio, Marco Livesu, Riccardo Scateni
+ Sara Casti, Corda Fabrizio, Marco Livesu, Riccardo Scateni
 
 [PDF](http://pers.ge.imati.cnr.it/livesu/papers/CCLS18/CCLS18.pdf)
 
