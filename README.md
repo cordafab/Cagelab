@@ -16,5 +16,8 @@ BibTeX entry:
   booktitle = {Smart Tools and Apps for Graphics - Eurographics Italian Chapter Conference},
   title     = {{CageLab: an Interactive Tool for Cage-Based Deformations}},
   year      = {2018},
-  publisher = {The Eurographics Association}}
+  publisher = {The Eurographics Association},
+  ISSN      = {2617-4855},
+  ISBN      = {978-3-03868-075-8},
+  DOI       = {10.2312/stag.20181299}}
   ```
